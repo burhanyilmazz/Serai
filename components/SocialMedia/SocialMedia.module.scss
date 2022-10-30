@@ -1,0 +1,25 @@
+.social-media {
+  p {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    color: #171454;
+  }
+
+  ul {
+    display: flex;
+    gap: 8px;
+    margin-top: 20px;
+    a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 54px;
+      height: 54px;
+      background: #171454;
+      border-radius: 20px;
+      color: #fff;
+      transition: all 0.5s ease;
+    }
+  }
+}

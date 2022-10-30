@@ -1,0 +1,17 @@
+.scroll-icon {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 52px;
+  height: 52px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 36px;
+  color: #fff;
+
+  i {
+    &:before {
+      font-size: 21px;
+    }
+  }
+}

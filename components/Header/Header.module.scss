@@ -1,0 +1,36 @@
+.header {
+  position: fixed;
+  width: 100%;
+  height: 92px;
+  z-index: 9;
+  background: rgba($color: #fff, $alpha: 0.2);
+  backdrop-filter: blur(30px);
+
+  &-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+    padding-left: 48px;
+    padding-right: 48px;
+  }
+}
+
+.right-nav {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+
+  a {
+    background: linear-gradient(90deg, #2176ff 0%, #42cdb2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+  }
+}
+
+.logo {
+  width: 165px;
+}

@@ -1,0 +1,37 @@
+.story {
+  padding: 120px 280px 160px;
+
+  &__content {
+    width: 100%;
+    max-width: 700px;
+    margin: auto;
+  }
+
+  &__images {
+    margin: 120px auto;
+    column-count: 3;
+    gap: 24px;
+    text-align: right;
+
+    img {
+      border-radius: 16px;
+      filter: grayscale(100%);
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      margin-bottom: 24px;
+
+      &:nth-child(1) {
+        margin-top: 55px;
+      }
+
+      &:nth-child(3) {
+        width: auto;
+      }
+
+      &:nth-child(6) {
+        margin-top: 180px;
+      }
+    }
+  }
+}

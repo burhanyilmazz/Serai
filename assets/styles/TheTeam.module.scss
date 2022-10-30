@@ -1,0 +1,59 @@
+.team {
+  padding: 160px 0 200px;
+  &__list {
+    width: 100%;
+    &--top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 24px;
+
+      > figure {
+        width: calc(50% - 12px);
+
+        &:nth-child(1) {
+          img {
+            order: 2;
+          }
+
+          figcaption {
+            order: 1;
+          }
+        }
+
+        &:nth-child(2) {
+          transform: translateY(113px);
+        }
+      }
+    }
+
+    &--bottom {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 78px;
+      margin: 313px auto 40px;
+
+      > figure {
+        margin-bottom: 78px;
+        width: calc(33.333% - 52px);
+      }
+    }
+  }
+}
+
+.contact {
+  padding-bottom: 180px;
+  &__grid {
+    display: flex;
+    gap: 80px;
+  }
+}
+
+.address {
+  width: 60%;
+}
+
+.contact-form {
+  width: 40%;
+}

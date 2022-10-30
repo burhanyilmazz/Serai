@@ -1,0 +1,56 @@
+.address {
+  &__list {
+    display: flex;
+    align-items: stretch;
+    gap: 24px;
+  }
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 36px;
+  border: 1px solid #d9d9d9;
+  border-radius: 16px;
+  width: 50%;
+  margin-bottom: 36px;
+  cursor: pointer;
+  transition: all 0.5s ease;
+  box-sizing: border-box;
+
+  h6 {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 22px;
+    opacity: 0.8;
+    transition: all 0.5s ease;
+  }
+
+  p {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+    margin-bottom: 0;
+    width: 80%;
+    margin-top: 5px;
+    transition: all 0.5s ease;
+  }
+
+  b {
+    font-weight: 600;
+  }
+
+  &--active {
+    box-shadow:inset 0px 0px 0px 2px #2176ff;
+    border-color: #2176ff;
+    h6 {
+      color: #2176ff;
+      opacity: 1;
+    }
+
+    p {
+      opacity: 1;
+    }
+  }
+}

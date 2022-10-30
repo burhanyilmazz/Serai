@@ -1,0 +1,59 @@
+.icon {
+line-height: 1;
+}
+
+.icon:before {
+font-family: serai !important;
+font-style: normal;
+font-weight: normal !important;
+vertical-align: top;
+}
+
+
+  %icon-arrow {
+  content: "\f101";
+  }
+
+  .icon-arrow:before {
+  content: "\f101";
+  }
+
+  %icon-close {
+  content: "\f102";
+  }
+
+  .icon-close:before {
+  content: "\f102";
+  }
+
+  %icon-facebook {
+  content: "\f103";
+  }
+
+  .icon-facebook:before {
+  content: "\f103";
+  }
+
+  %icon-google {
+  content: "\f104";
+  }
+
+  .icon-google:before {
+  content: "\f104";
+  }
+
+  %icon-mouse {
+  content: "\f105";
+  }
+
+  .icon-mouse:before {
+  content: "\f105";
+  }
+
+  %icon-twitter {
+  content: "\f106";
+  }
+
+  .icon-twitter:before {
+  content: "\f106";
+  }
