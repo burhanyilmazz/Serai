@@ -15,9 +15,7 @@ export const Address = (props) => {
   const onClick = (item, index) => {
     list[index].isSelected = !list[index]?.isSelected;
     list.map((li, i) => {
-      if (i !== index) {
-        list[i].isSelected = false
-      }
+      if (i !== index) list[i].isSelected = false
     })
     
     setList([...list]);

@@ -1,0 +1,41 @@
+.custom {
+  text-align: center;
+
+  h6 {
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    margin-bottom: 17px;
+  }
+
+  h2 {
+    font-weight: 300;
+    font-size: 36px;
+    line-height: 44px;
+    margin-bottom: 4px;
+  }
+
+  h3 {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  p {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    margin-bottom: 16px;
+    opacity: 0.7;
+    padding: 0 36px;
+  }
+
+  span {
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    text-decoration: underline;
+    cursor: pointer;
+    opacity: 0.7;
+  }
+}

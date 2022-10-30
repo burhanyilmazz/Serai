@@ -30,7 +30,7 @@ export default function Home() {
                 <h1>Free Form Boundaries</h1>
                 <p>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit</p>
                 <div className={styles['buttons']}>
-                  <Button text={'Custimize'} locale />
+                  <Button text={'Custimize'} locale href='/customize' />
                   <Button text={'Details'} button secondary onClick={() => setIsShowDetail(true)} />
                 </div>
               </div>
@@ -52,7 +52,7 @@ export default function Home() {
                 <h1>Free Form Boundaries</h1>
                 <p>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit</p>
                 <div className={styles['buttons']}>
-                  <Button text={'Custimize'} locale />
+                  <Button text={'Custimize'} locale href='/customize' />
                   <Button text={'Details'} button secondary onClick={() => setIsShowDetail(true)} />
                 </div>
               </div>
@@ -74,7 +74,7 @@ export default function Home() {
                 <h1>Free Form Boundaries</h1>
                 <p>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit</p>
                 <div className={styles['buttons']}>
-                  <Button text={'Custimize'} locale />
+                  <Button text={'Custimize'} locale href='/customize' />
                   <Button text={'Details'} button secondary onClick={() => setIsShowDetail(true)} />
                 </div>
               </div>

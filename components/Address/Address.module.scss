@@ -41,8 +41,9 @@
     font-weight: 600;
   }
 
+  &:hover,
   &--active {
-    box-shadow:inset 0px 0px 0px 2px #2176ff;
+    box-shadow: inset 0px 0px 0px 2px #2176ff;
     border-color: #2176ff;
     h6 {
       color: #2176ff;

@@ -42,18 +42,26 @@ vertical-align: top;
   content: "\f104";
   }
 
-  %icon-mouse {
+  %icon-info {
   content: "\f105";
+  }
+
+  .icon-info:before {
+  content: "\f105";
+  }
+
+  %icon-mouse {
+  content: "\f106";
   }
 
   .icon-mouse:before {
-  content: "\f105";
+  content: "\f106";
   }
 
   %icon-twitter {
-  content: "\f106";
+  content: "\f107";
   }
 
   .icon-twitter:before {
-  content: "\f106";
+  content: "\f107";
   }

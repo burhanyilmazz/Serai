@@ -20,12 +20,12 @@ export const Footer = () => {
         </div>
 
         <div className={styles['footer__address']}>
-          <h5>SERAI HQ</h5>
+          <span>SERAI HQ</span>
           <p>Serai AG <br />
           Dufourstrasse 49 8008 Zürich<br />
           +41 44 688 01 68</p>
 
-          <h5>SERAI ISTANBUL REPRESENTATION</h5>
+          <span>SERAI ISTANBUL REPRESENTATION</span>
           <p>Torun Center, D-Blok, K:10 D:43<br />
           Sisli Istanbul<br />
           +90 212 922 15 23</p>
