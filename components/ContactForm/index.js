@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import * as Yup from 'yup'
 import {useFormik} from 'formik'
 
-import {FormInput, FormTextarea, Button } from "../"
+import {FormInput, FormTextarea, Button, PhoneFormInput } from "../"
 import styles from './ContactForm.module.scss';
 
 export const ContactForm = (props) => { 
@@ -48,12 +48,14 @@ export const ContactForm = (props) => {
             />
           </div>
           <div className='form-group'>
-            <FormInput 
+            <PhoneFormInput 
               field='Phone'
-              name={'phone'}
-              {...formik.getFieldProps('phone')}
+              name='phone'
+              required
+              onChange={(value) => formik.setFieldValue('phone', value)}
             />
           </div>
+
           <div className='form-group'>
             <FormInput 
               field='E-Mail'

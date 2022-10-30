@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import styles from './FormInput.module.scss';
 export const FormInput = (props) => { 
 
-  const { className, field, maxLength, name, dataDirty, type, autocomplete, required, autoFocus, errorMessage, ...rest } = props;
+  const { className, field, maxLength, dataDirty, type, autocomplete, required, autoFocus, errorMessage, ...rest } = props;
   const [ dirty, setDirty ] = useState(dataDirty);
 
   useEffect(() => {
@@ -21,11 +21,11 @@ export const FormInput = (props) => {
           type = {type}
           autoComplete = {autocomplete}
           autoFocus={autoFocus}
-          id={name}
+          id={rest.name}
           required={required}
           {...rest}
         />
-        {field && <label htmlFor={name}>{field} {required && <span>*</span>}</label> }
+        {field && <label htmlFor={rest.name}>{field} {required && <span>*</span>}</label> }
         {required && <pre>{errorMessage}</pre>}
       </div>
     </>

@@ -12,3 +12,4 @@ export * from './Address';
 export * from './ContactForm';
 export * from './FormInput';
 export * from './FormTextarea';
+export * from './PhoneFormInput';
