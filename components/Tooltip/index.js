@@ -22,7 +22,7 @@ export const Tooltip = (props) => {
     >
       <Icon icon={'info'} />
       {isMounted && <ReactTooltip
-        place="bottom"
+        place="left"
         type="light"
         effect="solid"
         className={styles['tooltip-box']}

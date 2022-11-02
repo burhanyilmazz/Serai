@@ -16,4 +16,5 @@ export * from './FormTextarea';
 export * from './PhoneFormInput';
 export * from './CustomTitle';
 export * from './CustomListButton';
+export * from './CustomListRadio';
 export * from './Tooltip';

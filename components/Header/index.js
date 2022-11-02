@@ -13,7 +13,7 @@ export const Header = () => {
         </div>
         <Nav className={styles['nav']} />
         <div className={styles['right-nav']}>
-          <Link href='/custimize'>Custimize Your Home</Link>
+          <Link href='/customize'>Custimize Your Home</Link>
         </div>
       </div>
     </header>

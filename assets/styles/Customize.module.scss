@@ -25,6 +25,7 @@
   background: #fff;
   border-left: 1px solid #e6e6e6;
   overflow-y: auto;
+  height: 100vh;
   padding: 54px 64px;
 
   &::-webkit-scrollbar {
@@ -68,12 +69,14 @@
   align-items: center;
   justify-content: space-between;
   border-top: 1px solid #e6e6e6;
+  border-left: 1px solid #e6e6e6;
   height: 80px;
   position: fixed;
   bottom: 0;
   width: 30%;
   right: 0;
   padding: 0 48px;
+  background: #fff;
 
   &__title {
     font-weight: 200;
@@ -85,5 +88,14 @@
     font-weight: 600;
     font-size: 20px;
     line-height: 24px;
+  }
+}
+
+.group {
+  margin-bottom: 200px;
+  margin-top: 140px;
+
+  &__child {
+    margin-top: 64px;
   }
 }

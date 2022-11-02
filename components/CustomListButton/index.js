@@ -11,6 +11,8 @@ export const CustomListButton = (props) => {
   const [list, setList] = useState(data)
 
   const handleClick = (item, index) => {
+    if (item.soon_status) return false;
+
     list[index].selected = true;
     list.map((li, i) => {
       if (i !== index) list[i].selected = false
@@ -25,15 +27,16 @@ export const CustomListButton = (props) => {
       {
         list.map((item, index) => {
           return (
-            <div className={classNames(styles['button'], {[styles['button--active']]: item.selected})} key={index} onClick={() => handleClick(item, index)}>
+            <div className={classNames(styles['button'], {[styles['button--active']]: item.selected, [styles['button--disabled']]: item.soon_status})} key={index} onClick={() => handleClick(item, index)}>
               {item.image && <div className={styles['image']}><Image src={item.image} width={60} height={60} alt={item.title} /></div>}
               <div className={styles['content']}>
                 <h5>{item.title}</h5>
                 {item.description && <h6>{item.description}</h6> }
+                {item.soon_status && <span>Çok Yakında</span>}
                 {item.tooltip && <Tooltip 
                   className={styles['tooltip']}
                   title={item.tooltip.title}
-                  desc={item.tooltip.desription}
+                  desc={item.tooltip.description}
                 />}
               </div>
             </div>
