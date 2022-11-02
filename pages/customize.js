@@ -3,10 +3,13 @@ import Image from 'next/image'
 import classNames from 'classnames';
 
 import styles from '../assets/styles/Customize.module.scss'
-import { Logo, Detail, CustomTitle, CustomListButton, CustomListRadio } from '../components';
+import { Logo, Detail, CustomTitle, CustomListButton, CustomListRadio, FormSelect, Button, Icon } from '../components';
 
 export default function Customize() {
   const [isShowDetail, setIsShowDetail] = useState(false)
+  const [isPageOne, setIsPageOne] = useState(true);
+  const [isMore, setIsMore] = useState(false);
+
   const exterior = [
     {
       id: 1,
@@ -134,6 +137,13 @@ export default function Customize() {
     },
   ]
 
+  const country = [
+    { value: 'turkey', label: 'Türkiye' },
+    { value: 'sweden', label: 'Sweden' },
+    { value: 'england', label: 'England' },
+    { value: 'germany', label: 'Germany' },
+  ]
+
   return (
     <>
       <section className={styles['customize']}>
@@ -144,7 +154,7 @@ export default function Customize() {
         </div>
 
         <sidebar className={styles['custom']}>
-          <>
+          {isPageOne && <>
             <div className={styles['head']}>
               <h1>Serai One</h1>
               <p>Est. Delivery: Oct - Dec 2022</p>
@@ -187,13 +197,154 @@ export default function Customize() {
                   <CustomListButton data={mind} onClick={(item) => console.log(item)} />
                 </div>
               </div>
+
+              <div className={styles['group']}>
+                <CustomTitle 
+                  page={'5/6'}
+                  title={'Address'}
+                  desc={'Please Choose Your Delivery Location'}
+                />
+                <div className='form-group'>
+                  <FormSelect 
+                    options={country}
+                    onChange={(value) => console.log(value)}
+                    field={'Country'}
+                  />
+                </div>
+                <div className='form-group'>
+                  <FormSelect 
+                    options={country}
+                    onChange={(value) => console.log(value)}
+                    field={'City'}
+                  />
+                </div>
+                <div className='form-group-buttons'>
+                  <Button text={'Next'} button className={styles['button']} onClick={() => setIsPageOne(false)} />
+                </div>
+
+                <div className={styles['country-note']}>
+                  <h5>Order Your Serai One</h5>
+                  <h6>Est. Delivery: Oct - Dec 2022</h6>
+                </div>
+              </div>
             </div>
 
             <div className={styles['foot']}>
               <div className={styles['foot__title']}>Total Price:</div>
               <div className={styles['foot__total']}>$82.000</div>
             </div>
-          </>
+          </> }
+
+          {!isPageOne && <>
+              <div className={styles['head']}>
+                <div className={styles['head__button']} onClick={() => setIsPageOne(true)}>
+                  <Icon icon={'arrow'} /> Edit Design
+                </div>
+              </div>
+
+              <div className={styles['body']}>
+                <div className={styles['group']}>
+                  <CustomTitle 
+                    page={'6/6'}
+                    title={'Summary'}
+                    desc={'Selected Product Specifications'}
+                  />
+                  <div className={styles['basket']}>
+                    <table>
+                      <tbody>
+                        <tr>
+                          <th>Exterior</th>
+                          <td>Reynisfjara (Black)</td>
+                        </tr>
+                        <tr>
+                          <th className={styles['no-border']}>Interior</th>
+                          <td className={styles['no-border']}>&nbsp;</td>
+                        </tr>
+                        <tr>
+                          <td>Walls</td>
+                          <td>Lapland (White)</td>
+                        </tr>
+                        <tr>
+                          <td>Floors</td>
+                          <td>Lapland (White)</td>
+                        </tr>
+                        <tr>
+                          <th>Appliances</th>
+                          <td>Ready for dinner</td>
+                        </tr>
+                        <tr>
+                          <th>Mind</th>
+                          <td>IoT & AI</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div className={styles['more-box']}>
+                    <div className={classNames(styles['more-box__button'], {[styles['more-box__button--more']]: isMore})} onClick={() => setIsMore(!isMore)}>
+                      { isMore ? 'Show' : 'Hide' } Details <Icon icon={'arrow'} />
+                    </div>
+
+                    {!isMore && <table>
+                      <tbody>
+                        <tr>
+                          <td>Serai One:</td>
+                          <td>$82.000</td>
+                        </tr>
+                        <tr>
+                          <td>Walls Lapland (White):</td>
+                          <td>$2.000</td>
+                        </tr>
+                        <tr>
+                          <td>Floors Lapland (White):</td>
+                          <td>$800</td>
+                        </tr>
+                        <tr>
+                          <td>Apliances Ready for dinner:</td>
+                          <td>$800</td>
+                        </tr>
+                        <tr>
+                          <td>Mind IOT and AI:</td>
+                          <td>$800</td>
+                        </tr>
+                        <tr>
+                          <td>Toplam:</td>
+                          <td><b>$128.000</b></td>
+                        </tr>
+                        <tr>
+                          <td>Ödenecek Tutar (20%):</td>
+                          <td><b>$1.500</b></td>
+                        </tr>
+                      </tbody>
+                    </table>}
+                  </div>
+
+                  <div className={styles['summary-box']}>
+                    <table>
+                      <tbody>
+                        <tr>
+                          <td>Home Price:</td>
+                          <td>$82.000</td>
+                        </tr>
+                        <tr>
+                          <td>Destination Fee:</td>
+                          <td>$2.000</td>
+                        </tr>
+                        <tr>
+                          <td>Order Fee:</td>
+                          <td>$800</td>
+                        </tr>
+                        <tr>
+                          <td>Your Model Serai One:<br /><span>Excluding taxes & other fees</span></td>
+                          <td><b>$92.800</b></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </>
+          }
         </sidebar>
       </section>
 

@@ -121,6 +121,12 @@ ul {
 
 .form-group {
   margin-bottom: 16px;
+
+  &-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .snap {
@@ -208,5 +214,80 @@ p {
     margin-top: 4px;
     position: absolute;
     bottom: -20px;
+  }
+}
+
+.m-select {
+  height: 70px;
+  position: relative;
+  width: 100%;
+
+  * {
+    outline: 0;
+  }
+
+  &__control {
+    height: 70px !important;
+    border-color: #d9d9d9 !important;
+    box-shadow: none !important;
+    border-radius: 16px !important;
+
+    &--menu-is-open {
+      box-shadow: 0 0 1.875rem -0.625rem rgba($color: #000000, $alpha: 0.5) !important;
+      border: 0px !important;
+      border-bottom-left-radius: 0 !important;
+      border-bottom-right-radius: 0 !important;
+    }
+  }
+
+  &__placeholder {
+    color: #8e9fad !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
+  &__indicator {
+    color: #171454 !important;
+    margin-right: 10px;
+    &-separator {
+      display: none;
+    }
+  }
+
+  &__value-container {
+    padding-top: 22px !important;
+    padding-left: 11px !important;
+    padding-right: 11px !important;
+  }
+
+  &__single-value {
+    color: #171454 !important;
+    font-size: 16px !important;
+    line-height: 22px !important;
+    margin-left: 9px !important;
+  }
+
+  &__menu {
+    margin-top: 0 !important;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    box-shadow: 0 0.4375rem 1.875rem -0.625rem rgba($color: #000000, $alpha: 0.5) !important;
+    z-index: 9999 !important;
+  }
+
+  &__option {
+    padding: 12px 20px !important;
+    cursor: pointer !important;
+    color: #171454 !important;
+
+    &--is-focused,
+    &--is-selected {
+      background-color: #fff !important;
+      padding: 12px 20px !important;
+      color: #171454 !important;
+    }
+    &--is-focused {
+      font-weight: 600;
+    }
   }
 }
