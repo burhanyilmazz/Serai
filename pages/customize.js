@@ -10,7 +10,7 @@ import { Logo, Detail, CustomTitle, CustomListButton, CustomListRadio, FormSelec
 
 export default function Customize() {
   const [isShowDetail, setIsShowDetail] = useState(false)
-  const [isPageOne, setIsPageOne] = useState(false);
+  const [isPageOne, setIsPageOne] = useState(true);
   const [isMore, setIsMore] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isMoreInfo, setIsMoreInfo] = useState(false);
