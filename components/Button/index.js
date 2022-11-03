@@ -28,3 +28,7 @@ Button.propTypes = {
   button: PropTypes.bool,
   onClick: PropTypes.func
 };
+
+Button.defaultProps = {
+  href: '#'
+}
