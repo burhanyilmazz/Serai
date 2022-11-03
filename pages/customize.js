@@ -310,7 +310,7 @@ export default function Customize() {
                   />
                 </div>
                 <div className='form-group-buttons'>
-                  <Button text={'Next'} href='#' className={styles['button']} onClick={() => setIsPageOne(false)} />
+                  <Button text={'Next'} className={styles['button']} onClick={() => setIsPageOne(false)} />
                 </div>
 
                 <div className={styles['country-note']}>
