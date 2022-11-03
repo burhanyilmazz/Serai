@@ -12,7 +12,7 @@ export const Button = (props) => {
   return (
     <div className={classNames(styles['button'], className, {[styles['button--secondary']]: secondary})}>
       {locale && <Link href={href}>{text}</Link> }
-      {!locale && !button && <a href={href} target={target}>{text}</a> }
+      {!locale && !button && <a href={href} target={target} onClick={handleClick}>{text}</a> }
       {button && !locale && <button onClick={handleClick}>{text}</button> }
     </div>
   )
@@ -28,8 +28,3 @@ Button.propTypes = {
   button: PropTypes.bool,
   onClick: PropTypes.func
 };
-
-Button.defaultProps = {
-	target: '_blank',
-  href: '#'
-}

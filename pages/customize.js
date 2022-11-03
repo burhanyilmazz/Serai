@@ -2,13 +2,56 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image'
 import classNames from 'classnames';
 
+import * as Yup from 'yup'
+import {useFormik} from 'formik'
+
 import styles from '../assets/styles/Customize.module.scss'
-import { Logo, Detail, CustomTitle, CustomListButton, CustomListRadio, FormSelect, Button, Icon } from '../components';
+import { Logo, Detail, CustomTitle, CustomListButton, CustomListRadio, FormSelect, Button, Icon, FormInput, PhoneFormInput, Carousel, SelectedList, Modal, ModalCarousel, FormCheckbox } from '../components';
 
 export default function Customize() {
   const [isShowDetail, setIsShowDetail] = useState(false)
-  const [isPageOne, setIsPageOne] = useState(true);
+  const [isPageOne, setIsPageOne] = useState(false);
   const [isMore, setIsMore] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isMoreInfo, setIsMoreInfo] = useState(false);
+  const [checkboxAllow, setCheckboxAllow] = useState(true);
+  const [agreementModal, setAgreementModal] = useState(false);
+
+  const customizeSchema = Yup.object().shape({
+    email: Yup.string()
+      .email('Wrong format.')
+      .required('This field cannot be left blank.'),
+    namesurname: Yup.string().required('This field cannot be left blank.'),
+    phone: Yup.string().required('This field cannot be left blank.'),
+    permission: Yup.bool().oneOf([true], 'This field cannot be left blank.')
+  })
+
+  const [customize] = useState({
+    namesurname: '',
+    email: '',
+    phone: '',
+    country: '',
+    city: '',
+    state: '',
+    permission: ''
+  })
+
+  const formik = useFormik({
+    initialValues: customize,
+    validationSchema: customizeSchema,
+    onSubmit: async (values, {setSubmitting}) => {
+      setSubmitting(true)
+      setIsSuccess(true)
+      console.log(values)
+    },
+  })
+
+  const handleChange = (newValue, name) => {
+    if ( name === 'permission' ) {
+      setCheckboxAllow(!checkboxAllow)
+      formik.setFieldValue('permission', !checkboxAllow)
+    }
+  };
 
   const exterior = [
     {
@@ -138,10 +181,51 @@ export default function Customize() {
   ]
 
   const country = [
-    { value: 'turkey', label: 'Türkiye' },
-    { value: 'sweden', label: 'Sweden' },
-    { value: 'england', label: 'England' },
-    { value: 'germany', label: 'Germany' },
+    { id: 1, label: 'Türkiye' },
+    { id: 2, label: 'Sweden' },
+    { id: 3, label: 'England' },
+    { id: 4, label: 'Germany' },
+  ]
+
+  const carousel = [
+    { image: '/images/custom/img-2.jpg' },
+    { image: '/images/custom/img-1.jpg' },
+    { image: '/images/custom/img-1.jpg' },
+    { image: '/images/custom/img-1.jpg' },
+  ]
+
+  const modalCarousel = [
+    { image: '/images/custom/modal.jpg' },
+    { image: '/images/custom/img-2.jpg' },
+    { image: '/images/custom/modal.jpg' },
+    { image: '/images/custom/img-1.jpg' },
+  ]
+
+  const selectedList = [
+    {
+      title: 'Reserve Online',
+      description: 'Customer support will contact you'
+    },
+    {
+      title: '10 %',
+      description: 'Reservation deposit'
+    },
+    {
+      title: '40 %',
+      description: 'Signing contract Start of production'
+    },
+    {
+      title: '12 -16 Weeks',
+      description: 'Production Time'
+    },
+    {
+      title: '30 %',
+      description: 'Final payment prior shipping'
+    },
+    {
+      title: '20%',
+      description: 'Final payment'
+    }
   ]
 
   return (
@@ -150,10 +234,15 @@ export default function Customize() {
         <div className={styles['customize__logo']}><Logo /></div>
 
         <div className={styles['content']}>
-          <Image src='/images/custom/img-1.jpg' width={1388} height={980} alt={''} />
+          {!isPageOne &&<div className={styles['carousel']}>
+            <Carousel data={carousel} className={classNames({'carousel__slider--list': !isSuccess})} />
+            {!isSuccess && <SelectedList data={selectedList} className={styles['selected-list']} /> }
+          </div>
+          }
+          {isPageOne && <Image src='/images/custom/img-1.jpg' width={1388} height={980} alt={''} /> }
         </div>
 
-        <sidebar className={styles['custom']}>
+        <aside className={styles['custom']}>
           {isPageOne && <>
             <div className={styles['head']}>
               <h1>Serai One</h1>
@@ -167,7 +256,7 @@ export default function Customize() {
                   page={'1/6'}
                   title={'Exterior'}
                   desc={'Ut vel purus aliquam erat id nulla scelerisque, vitae viverra arcu ultricies.'}
-                  onClick={() => console.log('hello')}
+                  onClick={() => setIsMoreInfo(true)}
                 />
                 <CustomListButton data={exterior} onClick={(item) => console.log(item)} />
               </div>
@@ -209,6 +298,7 @@ export default function Customize() {
                     options={country}
                     onChange={(value) => console.log(value)}
                     field={'Country'}
+                    instanceId='country'
                   />
                 </div>
                 <div className='form-group'>
@@ -216,10 +306,11 @@ export default function Customize() {
                     options={country}
                     onChange={(value) => console.log(value)}
                     field={'City'}
+                    instanceId='city'
                   />
                 </div>
                 <div className='form-group-buttons'>
-                  <Button text={'Next'} button className={styles['button']} onClick={() => setIsPageOne(false)} />
+                  <Button text={'Next'} className={styles['button']} onClick={() => setIsPageOne(false)} />
                 </div>
 
                 <div className={styles['country-note']}>
@@ -236,19 +327,24 @@ export default function Customize() {
           </> }
 
           {!isPageOne && <>
-              <div className={styles['head']}>
+              {!isSuccess && <div className={styles['head']}>
                 <div className={styles['head__button']} onClick={() => setIsPageOne(true)}>
                   <Icon icon={'arrow'} /> Edit Design
                 </div>
-              </div>
+              </div> }
 
               <div className={styles['body']}>
                 <div className={styles['group']}>
-                  <CustomTitle 
+                  {!isSuccess && <CustomTitle 
                     page={'6/6'}
                     title={'Summary'}
                     desc={'Selected Product Specifications'}
-                  />
+                    /> }
+                  {isSuccess && <CustomTitle 
+                    icon
+                    title={'Order Confirmed'}
+                    desc={'Selected Product Specifications'}
+                  /> }
                   <div className={styles['basket']}>
                     <table>
                       <tbody>
@@ -341,13 +437,115 @@ export default function Customize() {
                       </tbody>
                     </table>
                   </div>
+                  
+                  {!isSuccess && <div className={styles['form']}>
+                    <form onSubmit={formik.handleSubmit} noValidate>
+                      <h4>Contact Information</h4>
+                      
+                      <div className='form-group'>
+                        <FormInput 
+                          field='Full Name'
+                          required
+                          errorMessage={formik.errors.namesurname}
+                          {...formik.getFieldProps('namesurname')}
+                          className={classNames({'is-invalid': formik.touched.namesurname && formik.errors.namesurname})}
+                        />
+                      </div>
+
+                      <div className='form-group'>
+                        <PhoneFormInput 
+                          field='Phone'
+                          name='phone'
+                          required
+                          onChange={(value) => formik.setFieldValue('phone', value)}
+                        />
+                      </div>
+
+                      <div className='form-group'>
+                        <FormInput 
+                          field='E-Mail'
+                          type="email" 
+                          required
+                          errorMessage={formik.errors.email}
+                          {...formik.getFieldProps('email')}
+                          className={classNames({'is-invalid': formik.touched.email && formik.errors.email})}
+                        />
+                      </div>
+
+                      <h4>Address</h4>
+
+                      <div className='form-group'>
+                        <FormSelect 
+                          options={country}
+                          onChange={(value) => console.log(value)}
+                          field={'Country'}
+                          instanceId='country'
+                        />
+                      </div>
+                      <div className='form-group'>
+                        <FormInput 
+                          field='Street address or P:O. Box'
+                          required
+                          errorMessage={formik.errors.street}
+                          {...formik.getFieldProps('street')}
+                          className={classNames({'is-invalid': formik.touched.street && formik.errors.street})}
+                        />
+                      </div>
+                      <div className='form-group'>
+                        <div>
+                          <FormSelect 
+                            options={country}
+                            onChange={(value) => console.log(value)}
+                            field={'City'}
+                            instanceId='city'
+                          />
+                        </div>
+                        <div>
+                          <FormSelect 
+                            options={country}
+                            onChange={(value) => console.log(value)}
+                            field={'State'}
+                            instanceId='state'
+                          />
+                        </div>
+                      </div>
+                      <div className='form-group'>
+                        <FormCheckbox
+                          label='<u>Lorem ipsum</u> dolor sit amet.'
+                          onChange={(newValue) => handleChange(newValue, 'permission')}
+                          checked={checkboxAllow}
+                          errorMessage={formik.errors.permission}
+                          name={'permission'}
+                          required
+                          className={classNames({'is-invalid': formik.touched.permission && formik.errors.permission})}
+                          onClickText={() =>  setAgreementModal(true)}
+                        />
+                      </div>
+                      <div className='form-group-buttons'>
+                        <Button text={'Continue With Card'} button className={styles['button']} />
+                      </div>
+                    </form>
+                  </div> }
                 </div>
               </div>
             </>
           }
-        </sidebar>
+        </aside>
       </section>
 
+      {isMoreInfo && <Modal onClose={() => setIsMoreInfo(false)}>
+        <ModalCarousel data={modalCarousel} />
+      </Modal> }
+
+      {agreementModal && <Modal onClose={() => setAgreementModal(false)}>
+        <div className={styles['permission']}>
+          <div className={styles['permission__content']}>
+            <h3>Structure</h3>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+          </div>
+        </div>
+      </Modal> }
       <Detail isShow={isShowDetail} onClickClose={() => setIsShowDetail(false)} />
     </>
   )

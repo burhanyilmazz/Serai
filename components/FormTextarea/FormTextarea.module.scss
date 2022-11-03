@@ -17,6 +17,7 @@
     line-height: 16px;
     box-sizing: border-box;
     resize: none;
+    transition: all 0.5s ease;
 
     &[readonly],
     &[disabled] {

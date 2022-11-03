@@ -5,12 +5,17 @@
     input {
       width: 100% !important;
       height: 70px !important;
-      border-color: #d9d9d9;
+      border-color: #d9d9d9 !important;
       border-radius: 16px !important;
       padding: 18px 40px 10px !important;
       color: #1f242b;
       font-weight: 500 !important;
       line-height: 16px !important;
+      transition: all 0.5s ease;
+
+      &:hover {
+        border-color: #1f242b !important;
+      }
     }
   }
 

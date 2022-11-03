@@ -18,50 +18,66 @@ vertical-align: top;
   content: "\f101";
   }
 
-  %icon-close {
+  %icon-check {
   content: "\f102";
+  }
+
+  .icon-check:before {
+  content: "\f102";
+  }
+
+  %icon-close {
+  content: "\f103";
   }
 
   .icon-close:before {
-  content: "\f102";
+  content: "\f103";
   }
 
   %icon-facebook {
-  content: "\f103";
+  content: "\f104";
   }
 
   .icon-facebook:before {
-  content: "\f103";
+  content: "\f104";
+  }
+
+  %icon-flag {
+  content: "\f105";
+  }
+
+  .icon-flag:before {
+  content: "\f105";
   }
 
   %icon-google {
-  content: "\f104";
+  content: "\f106";
   }
 
   .icon-google:before {
-  content: "\f104";
+  content: "\f106";
   }
 
   %icon-info {
-  content: "\f105";
+  content: "\f107";
   }
 
   .icon-info:before {
-  content: "\f105";
+  content: "\f107";
   }
 
   %icon-mouse {
-  content: "\f106";
+  content: "\f108";
   }
 
   .icon-mouse:before {
-  content: "\f106";
+  content: "\f108";
   }
 
   %icon-twitter {
-  content: "\f107";
+  content: "\f109";
   }
 
   .icon-twitter:before {
-  content: "\f107";
+  content: "\f109";
   }
