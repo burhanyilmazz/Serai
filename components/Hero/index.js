@@ -12,7 +12,10 @@ export const Hero = (props) => {
   return (
     <section className={styles['hero']}>
       <div className={styles['image']}>
-        <Image src={img} layout={'fill'} objectFit={'cover'} alt={title} />
+        <picture>
+          <source media="(max-width: 768px)" srcSet={mobile} />
+          <Image src={img} width={1920} height={1000} alt={title} />
+        </picture>
       </div>
       <div className={classNames(styles['hero__container'], {[styles['hero__container--bottom']]: bottom})}>
         <h1>{title}</h1>

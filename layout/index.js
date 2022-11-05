@@ -1,7 +1,11 @@
+import { useEffect } from 'react';
 import Head from 'next/head'
 import { Header, Footer } from '../components';
 
 export const Layout = (props) => { 
+  useEffect(() => {
+    document.querySelector('html').classList.remove('snap')
+  }, [])
   return (
     <>
       <Head>

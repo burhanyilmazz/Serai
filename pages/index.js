@@ -19,7 +19,10 @@ export default function Home() {
       <Layout>
         <section>
           <div className={styles['image']}>
-            <Image src='/images/home/slide-1.jpg' layout={'fill'} objectFit={'cover'} alt={'Free Form Boundaries'} />
+            <picture>
+              <source media="(max-width: 768px)" srcSet="/images/home/slide-3.jpg" />
+              <Image src='/images/home/slide-1.jpg' width={1920} height={980} alt={''} />
+            </picture>
           </div>
           <div className={styles['content']}>
             <div className={classNames('container', styles['flex-end'])}>
@@ -38,7 +41,10 @@ export default function Home() {
 
         <section>
           <div className={styles['image']}>
-            <Image src='/images/home/slide-2.jpg' layout={'fill'} objectFit={'cover'} alt={'Free Form Boundaries'} />
+            <picture>
+              <source media="(max-width: 768px)" srcSet="/images/home/slide-1.jpg" />
+              <Image src='/images/home/slide-2.jpg' width={1920} height={980} alt={''} />
+            </picture>
           </div>
           <div className={styles['content']}>
             <div className='container'>
@@ -57,7 +63,10 @@ export default function Home() {
         
         <section>
           <div className={styles['image']}>
-            <Image src='/images/home/slide-3.jpg' layout={'fill'} objectFit={'cover'} alt={'Free Form Boundaries'} />
+            <picture>
+              <source media="(max-width: 768px)" srcSet="/images/home/slide-2.jpg" />
+              <Image src='/images/home/slide-3.jpg' width={1920} height={980} alt={''} />
+            </picture>
           </div>
           <div className={styles['content']}>
             <div className='container'>

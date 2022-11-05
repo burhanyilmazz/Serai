@@ -12,7 +12,7 @@ export const Footer = () => {
       <div className={classNames('container-fluid', styles['container'])}>
         <div>
           <Link href='/'>
-            <a><Image src={'/images/logo/logo-2.svg'} width={'116'} height={'60'} alt={'Serai'} /></a>
+            <Image src={'/images/logo/logo-2.svg'} width={'116'} height={'60'} alt={'Serai'} />
           </Link>
         </div>
         <div className={styles['footer__nav']}>

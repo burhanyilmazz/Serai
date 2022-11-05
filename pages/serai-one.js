@@ -32,12 +32,15 @@ export default function SeraiOne() {
             <Button text={'Technical Specifications'} locale />
           </div>
           <div className={styles['plans__image']}>
-            <Image src={'/images/serai/plan.png'} width={1077} height={403} layout={'responsive'} objectFit={'cover'} alt='Yerleşim Planı' />
+            <Image src={'/images/serai/plan.png'} width={1077} height={403} alt='Yerleşim Planı' />
           </div>
         </section>
 
         <section className={styles['image']}>
-          <Image src={'/images/serai/img-1.jpg'} width={1920} height={980} layout={'responsive'} objectFit={'cover'} alt='Serai One' />
+          <picture>
+            <source media="(max-width: 768px)" srcSet={'/images/serai/img-1.jpg'} />
+            <Image src={'/images/serai/img-1.jpg'} width={1920} height={980} alt='Serai One' />
+          </picture>
         </section>
 
         <section className={styles['kroki']}>
@@ -47,7 +50,7 @@ export default function SeraiOne() {
               <p>Ut vel purus ornare, lacinia nibh sit amet, interdum nisl. Ut aliquam erat id nulla scelerisque, vitae viverra arcu ultricies.</p>
             </div>
             <div className={styles['kroki__image']}>
-              <Image src={'/images/serai/kroki-1.png'} width={670} height={501} layout={'responsive'} objectFit={'cover'} alt='kroki 1' />
+              <Image src={'/images/serai/kroki-1.png'} width={670} height={501} alt='kroki 1' />
             </div>
           </div>
 
@@ -63,7 +66,10 @@ export default function SeraiOne() {
         </section>
 
         <section className={styles['image']}>
-          <Image src={'/images/serai/img-2.jpg'} width={1920} height={980} layout={'responsive'} objectFit={'cover'} alt='Serai One' />
+          <picture>
+            <source media="(max-width: 768px)" srcSet={'/images/serai/img-2.jpg'} />
+            <Image src={'/images/serai/img-2.jpg'} width={1920} height={980} alt='Serai One' />
+          </picture>
         </section>
 
         <section className={styles['slider']}>
@@ -80,10 +86,10 @@ export default function SeraiOne() {
             loop
             className={classNames(styles['slider__carousel'], 'slider__carousel')}
           >
-            <SwiperSlide><Image src={'/images/serai/slider-1.jpg'} width={1086} height={502} layout={'responsive'} objectFit={'cover'} alt='Slide' /></SwiperSlide>
-            <SwiperSlide><Image src={'/images/serai/slider-1.jpg'} width={1086} height={502} layout={'responsive'} objectFit={'cover'} alt='Slide' /></SwiperSlide>
-            <SwiperSlide><Image src={'/images/serai/slider-1.jpg'} width={1086} height={502} layout={'responsive'} objectFit={'cover'} alt='Slide' /></SwiperSlide>
-            <SwiperSlide><Image src={'/images/serai/slider-1.jpg'} width={1086} height={502} layout={'responsive'} objectFit={'cover'} alt='Slide' /></SwiperSlide>
+            <SwiperSlide><Image src={'/images/serai/slider-1.jpg'} width={1086} height={502} alt='Slide' /></SwiperSlide>
+            <SwiperSlide><Image src={'/images/serai/slider-1.jpg'} width={1086} height={502} alt='Slide' /></SwiperSlide>
+            <SwiperSlide><Image src={'/images/serai/slider-1.jpg'} width={1086} height={502} alt='Slide' /></SwiperSlide>
+            <SwiperSlide><Image src={'/images/serai/slider-1.jpg'} width={1086} height={502} alt='Slide' /></SwiperSlide>
           </Swiper>
         </section>
       </Layout>

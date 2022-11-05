@@ -32,12 +32,13 @@
     align-items: center;
     gap: 48px;
 
-    h3 {
-      margin-top: 0;
+    img {
+      width: 380px;
+      height: auto;
     }
 
-    figcaption {
-      width: calc(100% - 428px);
+    h3 {
+      margin-top: 0;
     }
   }
 }
