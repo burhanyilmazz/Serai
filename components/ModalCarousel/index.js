@@ -29,7 +29,7 @@ export const ModalCarousel = (props) => {
           data?.map((item, index) => {
             return (
               <SwiperSlide key={index}>
-                <Image src={item.image} width={1121} height={590} alt={'slide'} />
+                <Image src={item.image} width={1121} height={590} layout={'responsive'} objectFit={'cover'} alt={'slide'} />
               </SwiperSlide>
             )
           })

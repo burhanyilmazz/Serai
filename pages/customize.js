@@ -239,7 +239,7 @@ export default function Customize() {
             {!isSuccess && <SelectedList data={selectedList} className={styles['selected-list']} /> }
           </div>
           }
-          {isPageOne && <Image src='/images/custom/img-1.jpg' width={1388} height={980} alt={''} /> }
+          {isPageOne && <Image src='/images/custom/img-1.jpg' layout={'fill'} objectFit={'cover'} alt={''} /> }
         </div>
 
         <aside className={styles['custom']}>
