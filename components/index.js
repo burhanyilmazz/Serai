@@ -24,3 +24,4 @@ export * from './Carousel';
 export * from './SelectedList';
 export * from './Modal';
 export * from './ModalCarousel';
+export * from './Hamburger';

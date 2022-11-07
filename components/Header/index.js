@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import { Nav, Logo } from '../';
+import { Nav, Logo, Hamburger, SocialMedia } from '../';
 
 import styles from './Header.module.scss';
 
@@ -11,9 +11,13 @@ export const Header = () => {
         <div className={styles['logo']}>
           <Logo />
         </div>
-        <Nav className={styles['nav']} />
-        <div className={styles['right-nav']}>
-          <Link href='/customize'>Custimize Your Home</Link>
+        <Hamburger />
+        <div className={styles['nav']}>
+          <Nav />
+          <div className={styles['right-nav']}>
+            <Link href='/customize'>Custimize Your Home</Link>
+          </div>
+          <SocialMedia className={styles['social-media']} />
         </div>
       </div>
     </header>

@@ -20,6 +20,11 @@
       border-radius: 20px;
       color: #fff;
       transition: all 0.5s ease;
+
+      @media screen and (max-width: 1024px) {
+        width: 48px;
+        height: 48px;
+      }
     }
   }
 }

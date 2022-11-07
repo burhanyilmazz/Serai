@@ -1,0 +1,48 @@
+.notfound {
+  background: #fff;
+  height: 100vh;
+
+  &__container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 92px 145px;
+
+    h1 {
+      font-weight: 100;
+      font-size: 156px;
+      line-height: 189px;
+      margin-bottom: 8px;
+    }
+
+    h6 {
+      font-weight: 200;
+      font-size: 24px;
+      line-height: 29px;
+      margin-bottom: 21px;
+    }
+
+    p {
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 30px;
+      margin-bottom: 41px;
+    }
+  }
+}
+
+.content {
+  width: 30%;
+}
+
+.image {
+  width: 60%;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}

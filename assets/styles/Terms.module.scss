@@ -1,0 +1,25 @@
+.terms {
+  padding: 170px 40px 180px;
+
+  &__container {
+    width: 100%;
+    max-width: 808px;
+    margin: auto;
+
+    h1 {
+      font-weight: 200;
+      font-size: 64px;
+      line-height: 77px;
+      text-align: center;
+    }
+
+    h6 {
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 32px;
+      text-align: center;
+      width: 80%;
+      margin: 16px auto 120px;
+    }
+  }
+}

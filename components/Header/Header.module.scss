@@ -34,3 +34,13 @@
 .logo {
   width: 165px;
 }
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  width: calc(50% + 146px);
+}
+
+.social-media {
+  display: none;
+}

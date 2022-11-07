@@ -5,6 +5,20 @@
 
   > div {
     width: 25%;
+
+    @media screen and (max-width: 1024px) {
+      &:nth-child(1) {
+        width: 15%;
+      }
+
+      &:nth-child(2) {
+        width: 20%;
+      }
+
+      &:nth-child(3) {
+        width: 40%;
+      }
+    }
   }
 }
 
@@ -52,6 +66,7 @@
     line-height: 22px;
     display: flex;
     justify-content: flex-end;
+    width: 75% !important;
 
     a {
       color: #171454;

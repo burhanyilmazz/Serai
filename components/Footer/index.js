@@ -31,14 +31,14 @@ export const Footer = () => {
           +90 212 922 15 23</p>
         </div>
         <div className={styles['footer__social-media']}>
-          <SocialMedia />
+          <SocialMedia title />
         </div>
         <div className={styles['footer__copyright']}>
           Copyright &copy; 2022 Serai
         </div>
         <div className={styles['footer__terms']}>
-          <Link href='/'>Terms of Service</Link>
-          <Link href='/'>Privacy Policy</Link>
+          <Link href='/terms-of-service'>Terms of Service</Link>
+          <Link href='/privacy-policy'>Privacy Policy</Link>
         </div>
       </div>
     </footer>
