@@ -4,12 +4,16 @@
     font-size: 18px;
     line-height: 22px;
     color: #171454;
+    margin-bottom: 20px;
+
+    @media screen and (max-width: 1024px) {
+      display: none;
+    }
   }
 
   ul {
     display: flex;
     gap: 8px;
-    margin-top: 20px;
     a {
       display: flex;
       align-items: center;

@@ -3,21 +3,17 @@
   justify-content: space-between;
   flex-wrap: wrap;
 
+  @media screen and (max-width: 1024px) {
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 0;
+  }
+
   > div {
     width: 25%;
 
     @media screen and (max-width: 1024px) {
-      &:nth-child(1) {
-        width: 15%;
-      }
-
-      &:nth-child(2) {
-        width: 20%;
-      }
-
-      &:nth-child(3) {
-        width: 40%;
-      }
+      width: 100%;
     }
   }
 }
@@ -26,7 +22,19 @@
   padding: 120px 0 100px;
   background: #fff;
 
+  @media screen and (max-width: 1024px) {
+    padding: 36px;
+  }
+
+  &__logo {
+    order: 1;
+  }
+
   &__nav {
+    order: 2;
+    @media screen and (max-width: 1024px) {
+      display: none;
+    }
     nav {
       flex-direction: column;
     }
@@ -36,6 +44,11 @@
     line-height: 22px;
     width: 33% !important;
     margin-bottom: 86px;
+    order: 3;
+
+    @media screen and (max-width: 1024px) {
+      display: none;
+    }
 
     span {
       font-weight: 600;
@@ -52,12 +65,30 @@
 
   &__social-media {
     width: 17% !important;
+    order: 4;
+    @media screen and (max-width: 1024px) {
+      width: 100% !important;
+      margin-top: 32px;
+
+      a {
+        width: 40px !important;
+        height: 40px !important;
+        border-radius: 100% !important;
+      }
+    }
   }
 
   &__copyright {
     font-weight: 400;
     font-size: 12px;
     line-height: 22px;
+    order: 5;
+
+    @media screen and (max-width: 1024px) {
+      order: 3;
+      font-size: 11px;
+      margin-top: 4px;
+    }
   }
 
   &__terms {
@@ -67,6 +98,15 @@
     display: flex;
     justify-content: flex-end;
     width: 75% !important;
+    order: 6;
+
+    @media screen and (max-width: 1024px) {
+      width: 100% !important;
+      justify-content: flex-start;
+      order: 2;
+      margin-top: 32px;
+      font-size: 11px;
+    }
 
     a {
       color: #171454;

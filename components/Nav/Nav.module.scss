@@ -5,6 +5,12 @@
   gap: 36px;
   display: flex;
 
+  @media screen and (max-width: 1024px) {
+    flex-direction: column;
+    font-size: 18px;
+    line-height: 22px;
+  }
+
   a {
     color: #171454;
   }

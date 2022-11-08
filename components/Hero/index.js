@@ -13,7 +13,7 @@ export const Hero = (props) => {
     <section className={styles['hero']}>
       <div className={styles['image']}>
         <picture>
-          <source media="(max-width: 768px)" srcSet={mobile} />
+          <source media="(max-width: 1024px)" srcSet={mobile} />
           <Image src={img} width={1920} height={1000} alt={title} />
         </picture>
       </div>

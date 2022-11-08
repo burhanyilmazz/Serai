@@ -5,6 +5,12 @@
   z-index: 9;
   background: rgba($color: #fff, $alpha: 0.2);
   backdrop-filter: blur(30px);
+  top: 0;
+
+  @media screen and (max-width: 1024px) {
+    background: #fff;
+    height: 79px;
+  }
 
   &-container {
     display: flex;
@@ -12,8 +18,11 @@
     justify-content: space-between;
     height: 100%;
     width: 100%;
-    padding-left: 48px;
-    padding-right: 48px;
+    padding: 0 48px;
+
+    @media screen and (max-width: 1024px) {
+      padding: 0 24px;
+    }
   }
 }
 
@@ -21,6 +30,12 @@
   font-weight: 500;
   font-size: 16px;
   line-height: 19px;
+
+  @media screen and (max-width: 1024px) {
+    margin-top: 36px;
+    font-size: 18px;
+    line-height: 22px;
+  }
 
   a {
     background: linear-gradient(90deg, #2176ff 0%, #42cdb2 100%);
@@ -33,14 +48,42 @@
 
 .logo {
   width: 165px;
+  position: relative;
+  z-index: 3;
 }
 
 .nav {
   display: flex;
   justify-content: space-between;
   width: calc(50% + 146px);
+
+  @media screen and (max-width: 1024px) {
+    background: #fff;
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    padding-top: 79px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: -1;
+    transition: all 0.5s ease;
+    transform: translateX(100%);
+  }
+
+  &--open {
+    transform: translateX(0);
+  }
 }
 
 .social-media {
   display: none;
+  @media screen and (max-width: 1024px) {
+    display: flex;
+    position: absolute;
+    bottom: 80px;
+  }
 }

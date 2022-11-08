@@ -4,17 +4,13 @@ import PropTypes from 'prop-types';
 import styles from './Hamburger.module.scss';
 
 export const Hamburger = (props) => { 
-  const { onClick, isOpen } = props;
-  const [isChecked, setIsChecked] = useState(isOpen);
+  const { onClick } = props;
+  const [isChecked, setIsChecked] = useState(false);
 
   const handleClick = () => {
     setIsChecked(!isChecked)
     onClick && onClick(!isChecked);
   }
-
-  useEffect(() => {
-    setIsChecked(isOpen)
-  }, [isOpen])
   
   return (
     <div className={classNames(styles['hamburger'], {[styles['hamburger--open']] : isChecked } )} onClick={handleClick}>

@@ -22,7 +22,7 @@ export default function SeraiOne() {
           title={'Serai One'}
           text={'Ut vel purus ornare, lacinia nibh sit amet, interdum nisl. Ut aliquam erat id nulla scelerisque, vitae viverra arcu ultricies.'}
           img={'/images/serai/hero.jpg'}
-          mobile={'/images/home/slide-2.jpg'}
+          mobile={'/images/serai/hero-mobile.jpg'}
         />
 
         <section className={styles['plans']}>
