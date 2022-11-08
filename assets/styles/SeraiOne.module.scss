@@ -4,8 +4,17 @@
   justify-content: space-between;
   padding: 180px 140px;
 
+  @media screen and (max-width: 1024px) {
+    flex-direction: column;
+    padding: 36px;
+  }
+
   &__content {
     width: 25%;
+
+    @media screen and (max-width: 1366px) {
+      width: 35%;
+    }
 
     @media screen and (max-width: 1024px) {
       width: 100%;
@@ -14,6 +23,10 @@
 
   &__image {
     width: calc(75% - 170px);
+
+    @media screen and (max-width: 1366px) {
+      width: calc(65% - 100px);
+    }
 
     @media screen and (max-width: 1024px) {
       width: 100%;
@@ -30,16 +43,36 @@
 
 .kroki {
   width: 100%;
-  padding: 100px 280px;
+  padding: 100px 0;
+  padding-left: clamp(100px, 15vw, 280px);
+  padding-right: clamp(100px, 15vw, 280px);
+
+  @media screen and (max-width: 1024px) {
+    padding: 36px 0;
+  }
 
   &__content {
     width: 40%;
     order: 1;
+
+    @media screen and (max-width: 1024px) {
+      width: 100%;
+      padding: 0 36px;
+    }
   }
 
   &__image {
     width: calc(60% - 170px);
     order: 2;
+
+    @media screen and (max-width: 1366px) {
+      width: calc(60% - 100px);
+    }
+
+    @media screen and (max-width: 1024px) {
+      width: 100%;
+      margin-top: 24px;
+    }
 
     img {
       width: 100%;
@@ -55,32 +88,57 @@
   justify-content: space-between;
   margin: 88px 0;
 
+  @media screen and (max-width: 1024px) {
+    flex-direction: column;
+    margin: 36px 0;
+  }
+
   &:nth-child(even) {
     .kroki {
       &__content {
         order: 2;
+        @media screen and (max-width: 1024px) {
+          order: 1;
+        }
       }
       &__image {
         order: 1;
+        @media screen and (max-width: 1024px) {
+          order: 2;
+        }
       }
     }
   }
 }
 
-
 .slider {
-  padding: 160px 0 120px;
+  padding: 100px 0;
+
+  @media screen and (max-width: 1024px) {
+    padding: 50px 0;
+  }
 
   &__container {
     width: 50%;
     margin: auto;
+
+    @media screen and (max-width: 1024px) {
+      width: 100%;
+      padding: 0 36px;
+    }
   }
 
   &__carousel {
     margin-top: 80px;
+    @media screen and (max-width: 1024px) {
+      margin-top: 50px;
+    }
     > div {
       > div {
         width: 50%;
+        @media screen and (max-width: 1024px) {
+          width: 90%;
+        }
 
         img {
           width: 100%;
@@ -89,5 +147,14 @@
         }
       }
     }
+  }
+}
+
+.image {
+  width: 100%;
+  img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
   }
 }

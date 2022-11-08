@@ -215,9 +215,15 @@ ul {
   .swiper-button {
     &-prev {
       left: calc(25% + 60px) !important;
+      @media screen and (max-width: 1024px) {
+        display: none;
+      }
     }
     &-next {
       right: calc(25% + 60px) !important;
+      @media screen and (max-width: 1024px) {
+        display: none;
+      }
     }
   }
 }
@@ -287,15 +293,19 @@ ul {
 h2 {
   font-weight: 300;
   font-size: clamp(20px, 3vw, 48px);
-  line-height: clamp(28px, 3vw, 58px);
+  line-height: clamp(28px, 4vw, 58px);
   margin-bottom: clamp(8px, 3vw, 24px);
 }
 
 p {
   font-weight: 400;
-  font-size: clamp(14px, 3vw, 18px);
+  font-size: clamp(14px, 1.3vw, 18px);
   line-height: clamp(26px, 3vw, 32px);
   margin-bottom: clamp(8px, 3vw, 24px);
+
+  @media screen and (max-width: 1024px) {
+    font-weight: 300;
+  }
 
   & ~ p {
     &:last-child {

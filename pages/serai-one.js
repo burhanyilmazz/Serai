@@ -37,10 +37,7 @@ export default function SeraiOne() {
         </section>
 
         <section className={styles['image']}>
-          <picture>
-            <source media="(max-width: 768px)" srcSet={'/images/serai/img-1.jpg'} />
-            <Image src={'/images/serai/img-1.jpg'} width={1920} height={980} alt='Serai One' />
-          </picture>
+          <Image src={'/images/serai/img-1.jpg'} width={1920} height={980} alt='Serai One' />
         </section>
 
         <section className={styles['kroki']}>
@@ -66,10 +63,7 @@ export default function SeraiOne() {
         </section>
 
         <section className={styles['image']}>
-          <picture>
-            <source media="(max-width: 768px)" srcSet={'/images/serai/img-2.jpg'} />
-            <Image src={'/images/serai/img-2.jpg'} width={1920} height={980} alt='Serai One' />
-          </picture>
+          <Image src={'/images/serai/img-2.jpg'} width={1920} height={980} alt='Serai One' />
         </section>
 
         <section className={styles['slider']}>
@@ -80,11 +74,17 @@ export default function SeraiOne() {
           <Swiper
             modules={[Navigation, Pagination, A11y]}
             slidesPerView={'auto'}
-            spaceBetween={24}
+            spaceBetween={7}
             centeredSlides
             navigation
             loop
             className={classNames(styles['slider__carousel'], 'slider__carousel')}
+            breakpoints={{
+                1024: {
+                  spaceBetween: 24
+                }
+              }
+            }
           >
             <SwiperSlide><Image src={'/images/serai/slider-1.jpg'} width={1086} height={502} alt='Slide' /></SwiperSlide>
             <SwiperSlide><Image src={'/images/serai/slider-1.jpg'} width={1086} height={502} alt='Slide' /></SwiperSlide>
