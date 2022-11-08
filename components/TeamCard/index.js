@@ -12,7 +12,10 @@ export const TeamCard = (props) => {
   
   return (
     <figure className={classNames(styles['team-card'], {[styles['team-card--horizontal']]: horizontal}, className)}>
-      <Image src={data.image} alt={data.title} width={width} height={height}  />
+      <picture>
+        {data.mobile && <source media="(max-width: 1024px)" srcSet={data.mobile} /> }
+        <Image src={data.image} alt={data.title} width={width} height={height}  />
+      </picture>
       <figcaption>
         <h3>{data.name}</h3>
         <h6>{data.title}</h6>

@@ -1,5 +1,8 @@
 .team {
   padding: 160px 0 120px;
+  @media screen and (max-width: 1024px) {
+    padding: 36px 0;
+  }
   &__list {
     width: 100%;
     &--top {
@@ -8,21 +11,43 @@
       justify-content: space-between;
       gap: 24px;
 
+      @media screen and (max-width: 1366px) {
+        flex-direction: column;
+      }
+
+      @media screen and (max-width: 1024px) {
+        gap: 54px;
+      }
+
       > figure {
         width: calc(50% - 12px);
+        @media screen and (max-width: 1366px) {
+          width: 100%;
+        }
 
         &:nth-child(1) {
-          img {
+          picture {
             order: 2;
+
+            @media screen and (max-width: 1024px) {
+              order: 1;
+            }
           }
 
           figcaption {
             order: 1;
+            @media screen and (max-width: 1024px) {
+              order: 2;
+            }
           }
         }
 
         &:nth-child(2) {
           transform: translateY(113px);
+          @media screen and (max-width: 1366px) {
+            transform: translateY(0);
+            margin-top: 24px;
+          }
         }
       }
     }
@@ -34,9 +59,25 @@
       gap: 78px;
       margin: 313px auto 40px;
 
+      @media screen and (max-width: 1366px) {
+        margin-top: 124px;
+        margin-bottom: 0;
+      }
+
+      @media screen and (max-width: 1024px) {
+        flex-direction: column;
+        gap: 54px;
+        margin-top: 54px;
+      }
+
       > figure {
         margin-bottom: 78px;
         width: calc(33.333% - 52px);
+
+        @media screen and (max-width: 1024px) {
+         width: 100%;
+         margin-bottom: 0;
+        }
       }
     }
   }
@@ -44,16 +85,30 @@
 
 .contact {
   padding-bottom: 180px;
+  @media screen and (max-width: 1366px) {
+    padding-bottom: 41px;
+  }
+
   &__grid {
     display: flex;
     gap: 80px;
+    @media screen and (max-width: 1366px) {
+      flex-direction: column;
+      gap: 60px;
+    }
   }
 }
 
 .address {
   width: 60%;
+  @media screen and (max-width: 1366px) {
+    width: 100%;
+  }
 }
 
 .contact-form {
   width: 40%;
+  @media screen and (max-width: 1366px) {
+    width: 100%;
+  }
 }

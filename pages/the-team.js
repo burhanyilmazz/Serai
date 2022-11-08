@@ -10,12 +10,14 @@ export default function TheTeam() {
       title: 'Head Architect',
       description: 'İstanbul Teknik Üniversitesi Mimarlık bölümü mezunudur. Yeni nesil yaşam alanlarını tasarlamak için teknoloji ve mimarinin sınırlarını keşfeden Eda, "The Habitats Of Neonomads" isimli yüksek lisans tezi ile MEF Üniversitesi Mimari Tasarım Bölümü’nden M.Sc. ünvanını almıştır. ',
       image: '/images/teams/img-1.jpg',
+      mobile: '/images/teams/img-1-m.jpg',
     },
     {
       name: 'Beyza Ayaz',
       title: 'Junior Architect',
       description: 'Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ',
       image: '/images/teams/img-2.jpg',
+      mobile: '/images/teams/img-2-m.jpg',
     },
     {
       name: 'Pınar Yaktıyol',

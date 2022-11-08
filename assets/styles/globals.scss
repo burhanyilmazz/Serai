@@ -320,6 +320,10 @@ p {
   overflow: hidden;
   width: 100%;
   z-index: 1;
+
+  @media screen and (max-width: 768px) {
+    height: 166px;
+  }
 }
 
 .is-invalid {
