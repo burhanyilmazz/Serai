@@ -13,7 +13,7 @@ export default function OurStory() {
           title={'Our Story'}
           text={'Serai, insancıl ve sürdürülebilir bir yaklaşımla, mimari tasarım ve yapay zekanın birleştirilebilecek yeni yollarını keşfeder. '}
           img={'/images/story/hero.jpg'}
-          mobile={'/images/home/slide-2.jpg'}
+          mobile={'/images/story/hero-mobile.jpg'}
           bottom
         />
 

@@ -64,7 +64,7 @@ export default function TheTeam() {
           title={'The Team'}
           text={'Our Advisory Board boasts academic excellence, professional achievement, and a passion for technology.'}
           img={'/images/teams/hero.jpg'}
-          mobile={'/images/home/slide-2.jpg'}
+          mobile={'/images/teams/hero-mobile.jpg'}
         />
 
         <section className={styles['team']}>
