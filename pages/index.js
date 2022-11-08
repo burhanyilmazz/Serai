@@ -21,7 +21,7 @@ export default function Home() {
           <div className={styles['image']}>
             <picture>
               <source media="(max-width: 1024px)" srcSet="/images/home/image_01.jpg" />
-              <Image src='/images/home/slide-1.jpg' width={1920} height={980} alt={''} />
+              <Image src='/images/home/slide-1.jpg' width={1920} height={980} alt={'Free Form Boundaries'} priority />
             </picture>
           </div>
           <div className={styles['content']}>
@@ -45,7 +45,7 @@ export default function Home() {
           <div className={styles['image']}>
             <picture>
               <source media="(max-width: 1024px)" srcSet="/images/home/image_02.jpg" />
-              <Image src='/images/home/slide-2.jpg' width={1920} height={980} alt={''} />
+              <Image src='/images/home/slide-2.jpg' width={1920} height={980} alt={'Spacious Yet Compact'} />
             </picture>
           </div>
           <div className={styles['content']}>
@@ -69,7 +69,7 @@ export default function Home() {
           <div className={styles['image']}>
             <picture>
               <source media="(max-width: 1024px)" srcSet="/images/home/image_03.jpg" />
-              <Image src='/images/home/slide-3.jpg' width={1920} height={980} alt={''} />
+              <Image src='/images/home/slide-3.jpg' width={1920} height={980} alt={'Home is Where Your Serai is'} />
             </picture>
           </div>
           <div className={styles['content']}>
