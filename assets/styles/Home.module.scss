@@ -9,6 +9,7 @@
 
   @media screen and (max-width: 1024px) {
     height: calc(100vh - 79px);
+    height: calc(100svh - 79px);
     > div {
       height: 100%;
     }
