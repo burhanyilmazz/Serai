@@ -8,7 +8,7 @@ import {useFormik} from 'formik'
 import styles from '../assets/styles/Customize.module.scss'
 import { Logo, Detail, CustomTitle, CustomListButton, CustomListRadio, FormSelect, Button, Icon, FormInput, PhoneFormInput, Carousel, SelectedList, Modal, ModalCarousel, FormCheckbox } from '../components';
 
-export default function Customize() {
+export default function Customize({detailedinfo}) {
   const [isShowDetail, setIsShowDetail] = useState(false)
   const [isPageOne, setIsPageOne] = useState(true);
   const [isMore, setIsMore] = useState(false);
@@ -568,7 +568,24 @@ export default function Customize() {
           </div>
         </div>
       </Modal> }
-      <Detail isShow={isShowDetail} onClickClose={() => setIsShowDetail(false)} />
+      
+      <Detail 
+          isShow={isShowDetail} 
+          title={detailedinfo?.title} 
+          content={detailedinfo?.content} 
+          onClickClose={() => setIsShowDetail(false)} 
+        />
     </>
   )
 }
+
+export async function getStaticProps() {
+  const detailedinfo = await fetch(`${process.env.API_URL}/detailedinfo`).then(r => r.json()).then(data => data.Result);
+
+  return {
+    props: {
+      detailedinfo
+    }
+  }
+}
+

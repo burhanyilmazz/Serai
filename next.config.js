@@ -8,6 +8,9 @@ const nextConfig = {
       },
       styledComponents: true
    },
+   images: {
+      domains: ['serai.ozanuzer.com']
+   }
 }
 
 module.exports = nextConfig
