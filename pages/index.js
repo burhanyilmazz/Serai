@@ -67,6 +67,7 @@ export async function getStaticProps() {
       sliders,
       detailedinfo,
       address
-    }
+    },
+    revalidate: 10,
   }
 }

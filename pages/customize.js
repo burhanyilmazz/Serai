@@ -585,7 +585,8 @@ export async function getStaticProps() {
   return {
     props: {
       detailedinfo
-    }
+    },
+    revalidate: 10,
   }
 }
 

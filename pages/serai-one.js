@@ -110,6 +110,7 @@ export async function getStaticProps() {
     props: {
       seraione,
       address
-    }
+    },
+    revalidate: 10,
   }
 }

@@ -40,6 +40,7 @@ export async function getStaticProps() {
     props: {
       ourstory,
       address
-    }
+    },
+    revalidate: 10,
   }
 }
