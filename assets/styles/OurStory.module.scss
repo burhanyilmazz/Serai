@@ -15,6 +15,23 @@
       padding: 0 12px;
       max-width: 100%;
     }
+    
+    * {
+      font-weight: 400;
+      font-size: clamp(14px, 1.3vw, 18px);
+      line-height: clamp(26px, 3vw, 32px);
+    
+      @media screen and (max-width: 1024px) {
+        font-weight: 300;
+      }
+    }
+
+    h2 {
+      font-weight: 300;
+      font-size: clamp(20px, 3vw, 48px);
+      line-height: clamp(28px, 4vw, 58px);
+      margin-bottom: clamp(8px, 3vw, 24px);
+    }
   }
 
   &__images {

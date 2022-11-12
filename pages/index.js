@@ -7,9 +7,7 @@ import { Layout } from '../layout'
 import styles from '../assets/styles/Home.module.scss'
 import { Button, Detail, ScrollIcon } from '../components';
 
-import fetch from 'isomorphic-unfetch'
-
-export default function Home({sliders, detailedinfo}) {
+export default function Home({sliders, detailedinfo, address}) {
   const [isShowDetail, setIsShowDetail] = useState(false)
 
   useEffect(() => {
@@ -18,7 +16,7 @@ export default function Home({sliders, detailedinfo}) {
   
   return (
     <>
-      <Layout>
+      <Layout address={address}>
         {
           sliders.map((item, index) => {
             return (
@@ -62,11 +60,13 @@ export default function Home({sliders, detailedinfo}) {
 export async function getStaticProps() {
   const sliders = await fetch(`${process.env.API_URL}/sliders`).then(r => r.json()).then(data => data.Result);
   const detailedinfo = await fetch(`${process.env.API_URL}/detailedinfo`).then(r => r.json()).then(data => data.Result);
+  const address = await fetch(`${process.env.API_URL}/theteam`).then(r => r.json()).then(data => data.Result.slider);
 
   return {
     props: {
       sliders,
-      detailedinfo
+      detailedinfo,
+      address
     }
   }
 }

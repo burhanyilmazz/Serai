@@ -3,6 +3,8 @@ import Head from 'next/head'
 import { Header, Footer } from '../components';
 
 export const Layout = (props) => { 
+  const { address } = props;
+  
   useEffect(() => {
     document.querySelector('html').classList.remove('snap');
     document.querySelector('html').classList.remove('disable-scroll')
@@ -20,7 +22,7 @@ export const Layout = (props) => {
       <main>
         {props.children}
       </main>
-      <Footer />
+      <Footer address={address} />
     </>
   )
 }

@@ -41,9 +41,9 @@ export const Address = (props) => {
 
       map = new google.maps.Map(googlemap.current, mapOptions);
 
-      googleList.map((item, index) => {
+      googleList.map(item => {
         const marker = new google.maps.Marker({
-          position: {lat: item.coordinate.lat, lng: item.coordinate.lng},
+          position: {lat: Number(item.lat), lng: Number(item.long)},
           map,
           icon
         });
@@ -70,7 +70,7 @@ export const Address = (props) => {
                 <h6>{item.title}</h6>
                 <p>
                   {item.address}<br />
-                  {item.phone}<br />
+                  {item.tel}<br />
                   {item.email && <b>{item.email}</b>}
                 </p>
               </div>

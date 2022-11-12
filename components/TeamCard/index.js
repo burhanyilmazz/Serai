@@ -19,7 +19,7 @@ export const TeamCard = (props) => {
       <figcaption>
         <h3>{data.name}</h3>
         <h6>{data.title}</h6>
-        <p>{data.description}</p>
+        <p>{data.content}</p>
       </figcaption>
     </figure>
   )

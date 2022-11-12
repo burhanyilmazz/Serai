@@ -4,10 +4,10 @@ import { Layout } from '../layout'
 import styles from '../assets/styles/NotFound.module.scss'
 import { Button } from '../components'
 
-export default function NotFound() {
+export default function NotFound({address}) {
   return (
     <>
-      <Layout>
+      <Layout address={address}>
         <section className={styles['notfound']}>
           <div className={styles['notfound__container']}>
             <div className={styles['content']}>
@@ -24,4 +24,14 @@ export default function NotFound() {
       </Layout>
     </>
   )
+}
+
+export async function getStaticProps() {
+  const address = await fetch(`${process.env.API_URL}/theteam`).then(r => r.json()).then(data => data.Result.slider);
+
+  return {
+    props: {
+      address
+    }
+  }
 }

@@ -6,7 +6,7 @@ import { Nav, SocialMedia } from '../';
 
 import styles from './Footer.module.scss';
 
-export const Footer = () => {
+export const Footer = ({address}) => {
   return (
     <footer className={styles['footer']}>
       <div className={classNames('container-fluid', styles['container'])}>
@@ -23,15 +23,16 @@ export const Footer = () => {
         </div>
 
         <div className={styles['footer__address']}>
-          <span>SERAI HQ</span>
-          <p>Serai AG <br />
-          Dufourstrasse 49 8008 Zürich<br />
-          +41 44 688 01 68</p>
-
-          <span>SERAI ISTANBUL REPRESENTATION</span>
-          <p>Torun Center, D-Blok, K:10 D:43<br />
-          Sisli Istanbul<br />
-          +90 212 922 15 23</p>
+          {
+            address.map((item, index) => {
+              return (
+                <div key={index}>
+                  <span>{item.title}</span>
+                  <p>{item.address}<br /> {item.tel}</p>
+                </div>
+              )
+            })
+          }
         </div>
         <div className={styles['footer__social-media']}>
           <SocialMedia title />

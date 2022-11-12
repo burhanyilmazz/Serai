@@ -2,10 +2,10 @@ import { Layout } from '../layout'
 
 import styles from '../assets/styles/Terms.module.scss'
 
-export default function Terms() {
+export default function Terms({address}) {
   return (
     <>
-      <Layout>
+      <Layout address={address}>
         <section className={styles['terms']}>
           <div className={styles['terms__container']}>
             <h1>Privacy Policy</h1>
@@ -19,4 +19,14 @@ export default function Terms() {
       </Layout>
     </>
   )
+}
+
+export async function getStaticProps() {
+  const address = await fetch(`${process.env.API_URL}/theteam`).then(r => r.json()).then(data => data.Result.slider);
+
+  return {
+    props: {
+      address
+    }
+  }
 }

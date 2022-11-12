@@ -13,12 +13,12 @@ import 'swiper/css/pagination';
 import styles from '../assets/styles/SeraiOne.module.scss'
 import classNames from 'classnames';
 
-export default function SeraiOne({seraione}) {
+export default function SeraiOne({seraione, address}) {
   const [isShowDetail, setIsShowDetail] = useState(false);
 
   return (
     <>
-      <Layout>
+      <Layout address={address}>
         <Hero 
           title={seraione.title}
           text={seraione.content}
@@ -104,10 +104,12 @@ export default function SeraiOne({seraione}) {
 
 export async function getStaticProps() {
   const seraione = await fetch(`${process.env.API_URL}/seraione`).then(r => r.json()).then(data => data.Result);
+  const address = await fetch(`${process.env.API_URL}/theteam`).then(r => r.json()).then(data => data.Result.slider);
 
   return {
     props: {
-      seraione
+      seraione,
+      address
     }
   }
 }
