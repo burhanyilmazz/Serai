@@ -24,7 +24,7 @@ export default function Home({sliders, detailedinfo, address}) {
                 <div className={styles['image']}>
                   <picture>
                     <source media="(max-width: 1024px)" srcSet={item.mobile_image} />
-                    <Image src={item.image} width={1920} height={980} alt={item.title} priority={index === 0} />
+                    <Image src={item.image} width={1920} height={980} alt={item.title} priority={index === 0 ? true : false} />
                   </picture>
                 </div>
                 <div className={styles['content']}>
