@@ -3,13 +3,12 @@
   z-index: 2;
   top: 0;
   height: 100vh;
+  height: 100svh;
   display: flex;
   align-items: center;
   width: 100%;
 
   @media screen and (max-width: 1024px) {
-    height: calc(100vh - 79px);
-    height: calc(100svh - 79px);
     > div {
       height: 100%;
     }
@@ -21,7 +20,7 @@
 
   @media screen and (max-width: 1024px) {
     width: 100%;
-    padding: 36px 0;
+    padding: 115px 0 36px;
     text-align: center;
     display: flex;
     flex-direction: column;

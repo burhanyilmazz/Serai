@@ -74,10 +74,18 @@ vertical-align: top;
   content: "\f108";
   }
 
-  %icon-twitter {
+  %icon-times {
   content: "\f109";
   }
 
-  .icon-twitter:before {
+  .icon-times:before {
   content: "\f109";
+  }
+
+  %icon-twitter {
+  content: "\f10a";
+  }
+
+  .icon-twitter:before {
+  content: "\f10a";
   }

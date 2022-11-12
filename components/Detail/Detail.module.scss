@@ -6,7 +6,7 @@
   left: 0;
   z-index: -1;
   transition: all 0.5s ease;
-  
+
   &--open {
     background: rgba($color: #000000, $alpha: 0.5);
     z-index: 10;
@@ -14,6 +14,9 @@
     .content {
       transition-delay: 0s;
       transform: translateX(0px);
+      @media screen and (max-width: 1024px) {
+        transform: translate(0, 0);
+      }
     }
   }
 }
@@ -30,10 +33,19 @@
   transition: all 0.5s ease;
   transition-delay: 0.2s;
 
+  @media screen and (max-width: 1024px) {
+    transform: translate(0, 100%);
+    width: 100%;
+    height: 90%;
+    bottom: 0;
+    border-radius: 20px 20px 0 0;
+    padding: 24px 50px 0 24px;
+  }
+
   > h2 {
     font-weight: 300;
-    font-size: 40px;
-    line-height: 48px;
+    font-size: clamp(20px, 2vw, 40px);
+    line-height: clamp(24px, 2vw, 48px);
   }
 }
 
@@ -44,21 +56,25 @@
   padding-right: 100px;
   margin-top: 36px;
 
+  @media screen and (max-width: 1024px) {
+    padding-right: 50px;
+  }
+
   h3 {
     font-weight: 300;
-    font-size: 24px;
-    line-height: 29px;
+    font-size: clamp(18px, 2vw, 24px);
+    line-height: clamp(22px, 2vw, 29px);
     margin-bottom: 12px;
   }
 
   p {
     font-weight: 400;
-    font-size: 18px;
-    line-height: 28px;
+    font-size: clamp(13px, 2vw, 18px);
+    line-height: clamp(19px, 2vw, 28px);
     color: rgba(17, 14, 75, 0.7);
 
     & ~ h3 {
-      margin-top: 36px;
+      margin-top: clamp(24px, 2vw, 36px);
     }
   }
 
@@ -68,7 +84,7 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background: #110E4B;
+    background: #110e4b;
     border-radius: 22px;
   }
 }
@@ -78,6 +94,11 @@
   top: 83px;
   right: 83px;
   cursor: pointer;
+
+  @media screen and (max-width: 1024px) {
+    top: 27px;
+    right: 32px;
+  }
 
   i {
     &:before {

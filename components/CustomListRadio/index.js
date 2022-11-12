@@ -38,12 +38,12 @@ export const CustomListRadio = (props) => {
                 <div className={classNames(styles['button'], {[styles['button--disabled']]: item.soon_status})} onClick={() => handleClick(item, index)}>
                   {item.image && <div className={styles['image']}><Image src={item.image} width={48} height={48} alt={item.title} /></div>}
                   <div className={styles['content']}>
-                    <h5>{item.title} {item.tooltip && <Tooltip 
+                    <h5>{item.title}</h5>
+                    {item?.tooltip && <Tooltip 
                       className={styles['tooltip']}
                       title={item.tooltip.title}
                       desc={item.tooltip.description}
-                    />}</h5>
-                    {item.description && <h6>{item.description}</h6> }
+                    />}
                     {item.soon_status && <span>Çok Yakında</span>}
                   </div>
                 </div>

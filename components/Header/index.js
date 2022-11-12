@@ -8,6 +8,13 @@ import classNames from 'classnames';
 
 export const Header = () => { 
   const [isOpen, setIsOpen] = useState(false);
+
+  const handleOnClickNav = (event) => {
+    event 
+      ? document.querySelector('html').classList.add('disable-scroll') 
+      : document.querySelector('html').classList.remove('disable-scroll')
+    setIsOpen(event)
+  }
   
   return (
     <header className={styles['header']}>
@@ -15,7 +22,7 @@ export const Header = () => {
         <div className={styles['logo']}>
           <Logo />
         </div>
-        <Hamburger onClick={(event) => setIsOpen(event)}/>
+        <Hamburger onClick={(event) => handleOnClickNav(event)}/>
         <div className={classNames(styles['nav'], {[styles['nav--open']]: isOpen})}>
           <Nav />
           <div className={styles['right-nav']}>

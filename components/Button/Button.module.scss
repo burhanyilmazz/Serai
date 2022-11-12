@@ -8,12 +8,13 @@
     border-radius: 16px;
     background: rgba($color: #2176ff, $alpha: 0.7);
     font-weight: 500;
-    font-size: 16px;
+    font-size: 15px;
     line-height: 19px;
     cursor: pointer;
     transition: all 0.5s ease;
     color: #fff;
     border: 1px solid transparent;
+    justify-content: center;
   }
 
   &--secondary {
@@ -21,6 +22,14 @@
     button {
       border-color: #fff;
       background: transparent;
+    }
+  }
+
+  &--thirty {
+    a,
+    button {
+      border-color: #3A3CE6;
+      background: #3A3CE6;
     }
   }
 }

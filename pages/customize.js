@@ -233,6 +233,12 @@ export default function Customize() {
       <section className={styles['customize']}>
         <div className={styles['customize__logo']}><Logo /></div>
 
+        {isPageOne && <div className={classNames(styles['head'], styles['head--title'], 'only-mobile')}>
+          <h1>Serai One</h1>
+          <p>Est. Delivery: Oct - Dec 2022</p>
+          <span onClick={() => setIsShowDetail(true)}>Learn about materials</span>
+        </div>}
+
         <div className={styles['content']}>
           {!isPageOne &&<div className={styles['carousel']}>
             <Carousel data={carousel} className={classNames({'carousel__slider--list': !isSuccess})} />
@@ -244,7 +250,7 @@ export default function Customize() {
 
         <aside className={styles['custom']}>
           {isPageOne && <>
-            <div className={styles['head']}>
+            <div className={classNames(styles['head'], 'only-desktop')}>
               <h1>Serai One</h1>
               <p>Est. Delivery: Oct - Dec 2022</p>
               <span onClick={() => setIsShowDetail(true)}>Learn about materials</span>
@@ -262,15 +268,24 @@ export default function Customize() {
               </div>
 
               <div className={styles['group']}>
+                <div className={styles['group__img']}>
+                  <Image src='/images/custom/img-2.jpg' width={1388} height={980} alt={''} />
+                </div>
+                
                 <CustomTitle 
                   page={'2/6'}
                   title={'Interior'}
                   desc={'Ut vel purus aliquam erat id nulla scelerisque, vitae viverra arcu ultricies.'}
+                  more
                   onClick={() => console.log('hello')}
                 />
                 <CustomListRadio data={interior} onClick={(item) => console.log(item)} />
 
                 <div className={styles['group__child']}>
+                  <div className={styles['group__img']}>
+                    <Image src='/images/custom/img-2.jpg' width={1388} height={980} alt={''} />
+                  </div>
+
                   <CustomTitle 
                     page={'3/6'}
                     subtitle={'Appliances'}
@@ -279,6 +294,10 @@ export default function Customize() {
                 </div>
 
                 <div className={styles['group__child']}>
+                  <div className={styles['group__img']}>
+                    <Image src='/images/custom/img-2.jpg' width={1388} height={980} alt={''} />
+                  </div>
+
                   <CustomTitle 
                     page={'4/6'}
                     subtitle={'Mind'}
@@ -341,9 +360,11 @@ export default function Customize() {
                     desc={'Selected Product Specifications'}
                     /> }
                   {isSuccess && <CustomTitle 
-                    icon
+                    icon='times'
                     title={'Order Confirmed'}
                     desc={'Selected Product Specifications'}
+                    button
+                    onClick={() => console.log("sdas")}
                   /> }
                   <div className={styles['basket']}>
                     <table>
@@ -523,6 +544,7 @@ export default function Customize() {
                       </div>
                       <div className='form-group-buttons'>
                         <Button text={'Continue With Card'} button className={styles['button']} />
+                        <Button text={'Continue With X'} button className={styles['button']} thirty />
                       </div>
                     </form>
                   </div> }

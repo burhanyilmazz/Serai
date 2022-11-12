@@ -27,7 +27,7 @@ export const CustomListButton = (props) => {
       {
         list.map((item, index) => {
           return (
-            <div className={classNames(styles['button'], {[styles['button--active']]: item.selected, [styles['button--disabled']]: item.soon_status})} key={index} onClick={() => handleClick(item, index)}>
+            <div className={classNames(styles['button'], {[styles['button--active']]: item.selected, [styles['button--disabled']]: item.soon_status, [styles['button--alone']]: !item.image})} key={index} onClick={() => handleClick(item, index)}>
               {item.image && <div className={styles['image']}><Image src={item.image} width={60} height={60} alt={item.title} /></div>}
               <div className={styles['content']}>
                 <h5>{item.title}</h5>

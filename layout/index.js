@@ -4,8 +4,10 @@ import { Header, Footer } from '../components';
 
 export const Layout = (props) => { 
   useEffect(() => {
-    document.querySelector('html').classList.remove('snap')
+    document.querySelector('html').classList.remove('snap');
+    document.querySelector('html').classList.remove('disable-scroll')
   }, [])
+
   return (
     <>
       <Head>

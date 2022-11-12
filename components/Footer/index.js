@@ -12,7 +12,10 @@ export const Footer = () => {
       <div className={classNames('container-fluid', styles['container'])}>
         <div className={styles['footer__logo']}>
           <Link href='/'>
-            <Image src={'/images/logo/logo-2.svg'} width={'116'} height={'60'} alt={'Serai'} />
+            <picture>
+              <source media="(max-width: 1024px)" srcSet="/images/logo/logo-text.svg" />
+              <Image src={'/images/logo/logo-2.svg'} width={'116'} height={'60'} alt={'Serai'} />
+            </picture>
           </Link>
         </div>
         <div className={styles['footer__nav']}>

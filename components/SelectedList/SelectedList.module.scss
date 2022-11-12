@@ -6,6 +6,9 @@
   display: flex;
   width: 100%;
   overflow-x: auto;
+  @media screen and (max-width: 1024px) {
+    padding: 0;
+  }
 }
 
 .box {
@@ -17,11 +20,21 @@
   position: relative;
   margin-right: 16px;
 
+  @media screen and (max-width: 1024px) {
+    flex: none;
+    padding: 24px;
+  }
+
   h6 {
     font-weight: 600;
     font-size: 16px;
-    margin-bottom: 4px;
     line-height: 19px;
+    margin-bottom: 4px;
+
+    @media screen and (max-width: 1024px) {
+      font-size: 14px;
+      line-height: 17px;
+    }
   }
 
   p {
@@ -29,6 +42,9 @@
     font-size: 13px;
     line-height: 20px;
     margin: 0;
+    @media screen and (max-width: 1024px) {
+      font-size: 12px;
+    }
   }
 
   &:after {
@@ -39,6 +55,10 @@
     opacity: 0.2;
     position: absolute;
     right: -16px;
+    @media screen and (max-width: 1024px) {
+      height: 100%;
+      top: 0;
+    }
   }
 
   &:last-child {
@@ -63,4 +83,11 @@
   font-size: 12px;
   line-height: 15px;
   margin-bottom: 24px;
+
+  @media screen and (max-width: 1024px) {
+    font-size: 9px;
+    line-height: 13px;
+    width: 24px;
+    height: 24px;
+  }
 }
