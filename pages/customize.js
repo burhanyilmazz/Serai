@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image'
 import classNames from 'classnames';
 
@@ -8,14 +8,23 @@ import {useFormik} from 'formik'
 import styles from '../assets/styles/Customize.module.scss'
 import { Logo, Detail, CustomTitle, CustomListButton, CustomListRadio, FormSelect, Button, Icon, FormInput, PhoneFormInput, Carousel, SelectedList, Modal, ModalCarousel, FormCheckbox } from '../components';
 
-export default function Customize({detailedinfo}) {
-  const [isShowDetail, setIsShowDetail] = useState(false)
+export default function Customize({exteriors, detailedinfo, settings}) {
+  const [isShowDetail, setIsShowDetail] = useState(false);
   const [isPageOne, setIsPageOne] = useState(true);
   const [isMore, setIsMore] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isMoreInfo, setIsMoreInfo] = useState(false);
   const [checkboxAllow, setCheckboxAllow] = useState(true);
   const [agreementModal, setAgreementModal] = useState(false);
+  const [productPrice, setProductPrice] = useState(Number(settings.product_price));
+
+  const [exteriorImg, setExteriorImg] = useState();
+
+  useEffect(() => {
+    const findImg = exteriors.find(item => item.is_selected);
+    setExteriorImg(findImg.big_image || exteriors[0].big_image)
+  }, [exteriors])
+  
 
   const customizeSchema = Yup.object().shape({
     email: Yup.string()
@@ -46,37 +55,17 @@ export default function Customize({detailedinfo}) {
     },
   })
 
-  const handleChange = (newValue, name) => {
-    if ( name === 'permission' ) {
-      setCheckboxAllow(!checkboxAllow)
-      formik.setFieldValue('permission', !checkboxAllow)
+  const handleChange = (name, item) => {
+    if (name === 'exterior') {
+      setExteriorImg(item.big_image);
     }
+    setProductPrice(productPrice + Number(item.lastPrice))
   };
 
-  const exterior = [
-    {
-      id: 1,
-      title: 'Reynisfjara (Black)',
-      image: '/images/custom/thumb-1.jpg',
-      selected: true,
-      price: 0,
-      tooltip: {
-        title: 'Lapland',
-        description: 'Ahşap meşe parke. Açık rengi ile ferah atmosfer sağlar. Suya ve lekelenmelere karşı dirençlidir. UV dayanımı yüksek son kalite parke darbelere karşı dayanıklıdır.'
-      }
-    },
-    {
-      id: 2,
-      title: 'Reynisfjara (Natural Wood)',
-      image: '/images/custom/thumb-1.jpg',
-      price: 800,
-      description: '+ 200 $',
-      tooltip: {
-        title: 'Lapland',
-        description: 'Ahşap meşe parke. Açık rengi ile ferah atmosfer sağlar. Suya ve lekelenmelere karşı dirençlidir. UV dayanımı yüksek son kalite parke darbelere karşı dayanıklıdır.'
-      }
-    }
-  ]
+  const handleChangePermission = (newValue, name) => {
+    setCheckboxAllow(!checkboxAllow)
+    formik.setFieldValue('permission', !checkboxAllow)
+  };
 
   const interior = [
     {
@@ -245,7 +234,11 @@ export default function Customize({detailedinfo}) {
             {!isSuccess && <SelectedList data={selectedList} className={styles['selected-list']} /> }
           </div>
           }
-          {isPageOne && <Image src='/images/custom/img-1.jpg' width={1388} height={980} alt={''} /> }
+
+          {isPageOne && <>
+            {exteriorImg && <Image src={exteriorImg} width={1388} height={980} alt={''} /> }
+          
+          </> }
         </div>
 
         <aside className={styles['custom']}>
@@ -264,7 +257,7 @@ export default function Customize({detailedinfo}) {
                   desc={'Ut vel purus aliquam erat id nulla scelerisque, vitae viverra arcu ultricies.'}
                   onClick={() => setIsMoreInfo(true)}
                 />
-                <CustomListButton data={exterior} onClick={(item) => console.log(item)} />
+                <CustomListButton data={exteriors} onClick={(item) => handleChange('exterior', item)} />
               </div>
 
               <div className={styles['group']}>
@@ -341,7 +334,7 @@ export default function Customize({detailedinfo}) {
 
             <div className={styles['foot']}>
               <div className={styles['foot__title']}>Total Price:</div>
-              <div className={styles['foot__total']}>$82.000</div>
+              <div className={styles['foot__total']}>${productPrice}</div>
             </div>
           </> }
 
@@ -533,7 +526,7 @@ export default function Customize({detailedinfo}) {
                       <div className='form-group'>
                         <FormCheckbox
                           label='<u>Lorem ipsum</u> dolor sit amet.'
-                          onChange={(newValue) => handleChange(newValue, 'permission')}
+                          onChange={(newValue) => handleChangePermission(newValue, 'permission')}
                           checked={checkboxAllow}
                           errorMessage={formik.errors.permission}
                           name={'permission'}
@@ -581,10 +574,14 @@ export default function Customize({detailedinfo}) {
 
 export async function getStaticProps() {
   const detailedinfo = await fetch(`${process.env.API_URL}/detailedinfo`).then(r => r.json()).then(data => data.Result);
+  const exteriors = await fetch(`${process.env.API_URL}/exteriors`).then(r => r.json()).then(data => data.Result);
+  const settings = await fetch(`${process.env.API_URL}/settings`).then(r => r.json()).then(data => data.Result);
 
   return {
     props: {
-      detailedinfo
+      detailedinfo,
+      exteriors,
+      settings
     },
     revalidate: 10,
   }
