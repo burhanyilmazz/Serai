@@ -8,7 +8,7 @@ import {useFormik} from 'formik'
 import styles from '../assets/styles/Customize.module.scss'
 import { Logo, Detail, CustomTitle, CustomListButton, CustomListRadio, FormSelect, Button, Icon, FormInput, PhoneFormInput, Carousel, SelectedList, Modal, ModalCarousel, FormCheckbox } from '../components';
 
-export default function Customize({exteriors, detailedinfo, settings}) {
+export default function Customize({exteriors, interiors, detailedinfo, settings, exteriors_more_info_images, interiors_more_info_images}) {
   const [isShowDetail, setIsShowDetail] = useState(false);
   const [isPageOne, setIsPageOne] = useState(true);
   const [isMore, setIsMore] = useState(false);
@@ -16,15 +16,8 @@ export default function Customize({exteriors, detailedinfo, settings}) {
   const [isMoreInfo, setIsMoreInfo] = useState(false);
   const [checkboxAllow, setCheckboxAllow] = useState(true);
   const [agreementModal, setAgreementModal] = useState(false);
+  const [moreModal, setMoreModal] = useState();
   const [productPrice, setProductPrice] = useState(Number(settings.product_price));
-
-  const [exteriorImg, setExteriorImg] = useState();
-
-  useEffect(() => {
-    const findImg = exteriors.find(item => item.is_selected);
-    setExteriorImg(findImg.big_image || exteriors[0].big_image)
-  }, [exteriors])
-  
 
   const customizeSchema = Yup.object().shape({
     email: Yup.string()
@@ -59,6 +52,16 @@ export default function Customize({exteriors, detailedinfo, settings}) {
     if (name === 'exterior') {
       setExteriorImg(item.big_image);
     }
+
+    if (name === 'appliancess') {
+      setAppliancesImg(item.big_image);
+    }
+
+    if (name === 'mind') {
+      setMindImg(item.big_image);
+    }
+
+    setBigImg(item.big_image)
     setProductPrice(productPrice + Number(item.lastPrice))
   };
 
@@ -67,107 +70,26 @@ export default function Customize({exteriors, detailedinfo, settings}) {
     formik.setFieldValue('permission', !checkboxAllow)
   };
 
-  const interior = [
-    {
-      id: 1,
-      title: 'Reynisfjara (Black)',
-      image: '/images/custom/thumb-1.jpg',
-      tooltip: {
-        title: 'Lapland',
-        description: 'Ahşap meşe parke. Açık rengi ile ferah atmosfer sağlar. Suya ve lekelenmelere karşı dirençlidir. UV dayanımı yüksek son kalite parke darbelere karşı dayanıklıdır.'
-      },
-      walls: {
-        id: 11,
-        price: 0,
-        selected: true
-      },
-      floors: {
-        id: 12,
-        price: 0,
-        selected: true
-      }
-    },
-    {
-      id: 2,
-      title: 'Rubjerg (Yellow)',
-      image: '/images/custom/thumb-1.jpg',
-      price: 800,
-      description: '+ 200 $',
-      tooltip: {
-        title: 'Lapland',
-        description: 'Ahşap meşe parke. Açık rengi ile ferah atmosfer sağlar. Suya ve lekelenmelere karşı dirençlidir. UV dayanımı yüksek son kalite parke darbelere karşı dayanıklıdır.'
-      },
-      walls: {
-        id: 21,
-        price: 200,
-      },
-      floors: {
-        id: 22,
-        price: 200,
-      }
-    },
-    {
-      id: 3,
-      title: 'Lapland (White)',
-      image: '/images/custom/thumb-1.jpg',
-      price: 800,
-      description: '+ 200 $',
-      tooltip: {
-        title: 'Lapland',
-        description: 'Ahşap meşe parke. Açık rengi ile ferah atmosfer sağlar. Suya ve lekelenmelere karşı dirençlidir. UV dayanımı yüksek son kalite parke darbelere karşı dayanıklıdır.'
-      },
-      walls: {
-        id: 31,
-        price: 200,
-      },
-      floors: {
-        id: 32,
-        price: 200,
-      }
-    }
-  ]
+  const onClickMore = (name) => {
+    setIsMoreInfo(true);
+    
+    setMoreModal(name === 'exterior' ? exteriors_more_info_images : interiors_more_info_images)
+  };
 
-  const appliances = [
-    {
-      id: 1,
-      title: 'None',
-      description: 'Free',
-      selected: true,
-      price: 0,
-    },
-    {
-      id: 2,
-      title: 'Ready for dinner',
-      price: 200,
-      description: '+ 200 $',
-      tooltip: {
-        title: 'Lapland',
-        description: 'Ahşap meşe parke. Açık rengi ile ferah atmosfer sağlar. Suya ve lekelenmelere karşı dirençlidir. UV dayanımı yüksek son kalite parke darbelere karşı dayanıklıdır.'
-      }
-    },
-  ]
+  const interior = interiors.filter(item => item.product_type === 'colors')
+  const appliances = interiors.filter(item => item.product_type === 'appliances')
+  const mind = interiors.filter(item => item.product_type === 'mind')
+  
+  const findImgExteriors = exteriors.find(item => item.is_selected);
+  const [bigImg, setBigImg] = useState(findImgExteriors?.big_image || exteriors[0].big_image);
+  const [exteriorImg, setExteriorImg] = useState(findImgExteriors?.big_image || exteriors[0].big_image);
 
-  const mind = [
-    {
-      id: 1,
-      title: 'Residence (No Iot, no AI)',
-      selected: true,
-      price: 0
-    },
-    {
-      id: 2,
-      title: 'Assistant (IoT, no AI)',
-      price: 200,
-      description: '+ 200 $',
-    },
-    {
-      id: 3,
-      title: 'Doppelganger (IoT & AI)',
-      price: 200,
-      description: '+ 200 $',
-      soon_status: true
-    },
-  ]
+  const findImgAppliances = appliances.find(item => item.is_selected);
+  const [appliancesImg, setAppliancesImg] = useState(findImgAppliances?.big_image || appliances[0].big_image);
+
+  const findImgMind = mind.find(item => item.is_selected);
+  const [mindImg, setMindImg] = useState(findImgMind?.big_image || mind[0].big_image);
+
 
   const country = [
     { id: 1, label: 'Türkiye' },
@@ -180,13 +102,6 @@ export default function Customize({exteriors, detailedinfo, settings}) {
     { image: '/images/custom/img-2.jpg' },
     { image: '/images/custom/img-1.jpg' },
     { image: '/images/custom/img-1.jpg' },
-    { image: '/images/custom/img-1.jpg' },
-  ]
-
-  const modalCarousel = [
-    { image: '/images/custom/modal.jpg' },
-    { image: '/images/custom/img-2.jpg' },
-    { image: '/images/custom/modal.jpg' },
     { image: '/images/custom/img-1.jpg' },
   ]
 
@@ -235,10 +150,12 @@ export default function Customize({exteriors, detailedinfo, settings}) {
           </div>
           }
 
-          {isPageOne && <>
-            {exteriorImg && <Image src={exteriorImg} width={1388} height={980} alt={''} /> }
-          
-          </> }
+          {isPageOne && 
+            <>
+              <Image src={bigImg} width={1388} height={980} alt={'Serai One'} priority className='only-desktop' />
+              <Image src={exteriorImg} width={1388} height={980} alt={'Serai One'} priority className='only-mobile' />
+            </>
+          }
         </div>
 
         <aside className={styles['custom']}>
@@ -255,7 +172,8 @@ export default function Customize({exteriors, detailedinfo, settings}) {
                   page={'1/6'}
                   title={'Exterior'}
                   desc={'Ut vel purus aliquam erat id nulla scelerisque, vitae viverra arcu ultricies.'}
-                  onClick={() => setIsMoreInfo(true)}
+                  more
+                  onClick={() => onClickMore('exterior')}
                 />
                 <CustomListButton data={exteriors} onClick={(item) => handleChange('exterior', item)} />
               </div>
@@ -270,32 +188,32 @@ export default function Customize({exteriors, detailedinfo, settings}) {
                   title={'Interior'}
                   desc={'Ut vel purus aliquam erat id nulla scelerisque, vitae viverra arcu ultricies.'}
                   more
-                  onClick={() => console.log('hello')}
+                  onClick={() => onClickMore('interior')}
                 />
                 <CustomListRadio data={interior} onClick={(item) => console.log(item)} />
 
                 <div className={styles['group__child']}>
                   <div className={styles['group__img']}>
-                    <Image src='/images/custom/img-2.jpg' width={1388} height={980} alt={''} />
+                    <Image src={appliancesImg} width={1388} height={980} alt={'Appliances'} />
                   </div>
 
                   <CustomTitle 
                     page={'3/6'}
                     subtitle={'Appliances'}
                   />
-                  <CustomListButton data={appliances} onClick={(item) => console.log(item)} />
+                  <CustomListButton data={appliances} onClick={(item) => handleChange('appliancess', item)} />
                 </div>
 
                 <div className={styles['group__child']}>
                   <div className={styles['group__img']}>
-                    <Image src='/images/custom/img-2.jpg' width={1388} height={980} alt={''} />
+                    <Image src={mindImg} width={1388} height={980} alt={'Mind'} />
                   </div>
 
                   <CustomTitle 
                     page={'4/6'}
                     subtitle={'Mind'}
                   />
-                  <CustomListButton data={mind} onClick={(item) => console.log(item)} />
+                  <CustomListButton data={mind} onClick={(item) => handleChange('mind', item)} />
                 </div>
               </div>
 
@@ -549,7 +467,7 @@ export default function Customize({exteriors, detailedinfo, settings}) {
       </section>
 
       {isMoreInfo && <Modal onClose={() => setIsMoreInfo(false)}>
-        <ModalCarousel data={modalCarousel} />
+        <ModalCarousel data={moreModal} />
       </Modal> }
 
       {agreementModal && <Modal onClose={() => setAgreementModal(false)}>
@@ -576,12 +494,18 @@ export async function getStaticProps() {
   const detailedinfo = await fetch(`${process.env.API_URL}/detailedinfo`).then(r => r.json()).then(data => data.Result);
   const exteriors = await fetch(`${process.env.API_URL}/exteriors`).then(r => r.json()).then(data => data.Result);
   const settings = await fetch(`${process.env.API_URL}/settings`).then(r => r.json()).then(data => data.Result);
+  const interiors = await fetch(`${process.env.API_URL}/interiors`).then(r => r.json()).then(data => data.Result);
+  const interiors_more_info_images = await fetch(`${process.env.API_URL}/interiors_more_info_images`).then(r => r.json()).then(data => data.Result);
+  const exteriors_more_info_images = await fetch(`${process.env.API_URL}/exteriors_more_info_images`).then(r => r.json()).then(data => data.Result);
 
   return {
     props: {
       detailedinfo,
       exteriors,
-      settings
+      settings,
+      interiors,
+      interiors_more_info_images,
+      exteriors_more_info_images
     },
     revalidate: 10,
   }
