@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image'
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -7,17 +7,32 @@ import styles from './CustomListRadio.module.scss';
 import { Tooltip } from '../Tooltip';
 
 export const CustomListRadio = (props) => {
-  const { data, onClick, className } = props;
-  const [list, setList] = useState(data)
+  const { data, onChange, className } = props;
+  const [list, setList] = useState(data);
+ 
+  const handleChange = (item) => {
+    item.is_selected = true;
+    list.map(li => {
+      const finder = li.color_details.find(f => f.is_selected && f.product_type === item.product_type && f !== item);
+      if (finder) finder.is_selected = false;
 
-  const handleClick = (item, index) => {
-    list[index].selected = true;
-    list.map((li, i) => {
-      if (i !== index) list[i].selected = false
+      li.color_details.map(color => {
+
+        if (item.product_type === color.product_type) {
+          color['lastPrice'] = (item.price - (item.price - color.newPrice)) || item.price
+          color['newPrice'] = (color.price - item.price)
+        }
+      })
     })
-    
+
+    const radioList = []
+    const radios = document.querySelectorAll('input[type="radio"]:checked');
+    for (const radio of radios) {
+      radioList.push(radio.dataset.id)
+    }
+
     setList([...list]);
-    onClick && onClick(item)
+    onChange && onChange(item, radioList)
   }
 
   return (
@@ -35,8 +50,8 @@ export const CustomListRadio = (props) => {
           return (
             <tr key={index}>
               <td>
-                <div className={classNames(styles['button'], {[styles['button--disabled']]: item.soon_status})} onClick={() => handleClick(item, index)}>
-                  {item.image && <div className={styles['image']}><Image src={item.image} width={48} height={48} alt={item.title} /></div>}
+                <div className={classNames(styles['button'], {[styles['button--disabled']]: item.soon_status})}>
+                  {item.mini_image && <div className={styles['image']}><Image src={item.mini_image} width={48} height={48} alt={item.title} /></div>}
                   <div className={styles['content']}>
                     <h5>{item.title}</h5>
                     {item?.tooltip && <Tooltip 
@@ -48,8 +63,43 @@ export const CustomListRadio = (props) => {
                   </div>
                 </div>
               </td>
-              <td><label htmlFor={item.walls?.id}><input type='radio' name='walls' id={item.walls?.id} value={item.walls?.price} /></label></td>
-              <td><label htmlFor={item.floors?.id}><input type='radio' name='floors' id={item.floors?.id} value={item.floors?.price} /></label></td>
+              {
+                item.color_details.map((color, i) => {
+                  if (i == 0 && color.product_type !== 'walls_color') {
+                    return (
+                      <>
+                        <td key={i}>&nbsp;</td>
+                        <td key={i}>
+                          <label>
+                            <input type='radio' name={color.product_type} value={color.price} defaultChecked={color.is_selected} />
+                          </label>
+                        </td>
+                      </>
+                    )
+                  }
+
+                  if (i == 1 && color.product_type !== 'floors_color') {
+                    return (
+                      <>
+                        <td key={i}>
+                          <label>
+                            <input type='radio' name={color.product_type} value={color.price} defaultChecked={color.is_selected} />
+                          </label>
+                        </td>
+                        <td key={i}>&nbsp;</td>
+                      </>
+                    )
+                  }
+
+                  return (
+                    <td key={i}>
+                      <label>
+                        <input type='radio' name={color.product_type} value={color.price} defaultChecked={color.is_selected} data-id={`${item.id}-${color.id}`} onChange={() => handleChange(color)} />
+                      </label>
+                    </td>
+                  )
+                })
+              }
             </tr>
           )
         })
@@ -61,6 +111,6 @@ export const CustomListRadio = (props) => {
 
 CustomListRadio.propTypes = {
 	data: PropTypes.array,
-  onClick: PropTypes.func,
+  onChange: PropTypes.func,
   className: PropTypes.string,
 };

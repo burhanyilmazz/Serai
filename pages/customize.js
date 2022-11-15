@@ -8,7 +8,7 @@ import {useFormik} from 'formik'
 import styles from '../assets/styles/Customize.module.scss'
 import { Logo, Detail, CustomTitle, CustomListButton, CustomListRadio, FormSelect, Button, Icon, FormInput, PhoneFormInput, Carousel, SelectedList, Modal, ModalCarousel, FormCheckbox } from '../components';
 
-export default function Customize({exteriors, interiors, detailedinfo, settings, exteriors_more_info_images, interiors_more_info_images}) {
+export default function Customize({exteriors, interiors, detailedinfo, settings, exteriors_more_info_images, interiors_more_info_images, variant_images}) {
   const [isShowDetail, setIsShowDetail] = useState(false);
   const [isPageOne, setIsPageOne] = useState(true);
   const [isMore, setIsMore] = useState(false);
@@ -76,7 +76,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
     setMoreModal(name === 'exterior' ? exteriors_more_info_images : interiors_more_info_images)
   };
 
-  const interior = interiors.filter(item => item.product_type === 'colors')
+  const colors = interiors.filter(item => item.product_type === 'colors')
   const appliances = interiors.filter(item => item.product_type === 'appliances')
   const mind = interiors.filter(item => item.product_type === 'mind')
   
@@ -90,6 +90,47 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
   const findImgMind = mind.find(item => item.is_selected);
   const [mindImg, setMindImg] = useState(findImgMind?.big_image || mind[0].big_image);
 
+  const colorDefaultSelected = [];
+  colors.map(item => {
+    const color = item.color_details.find(filt => filt.is_selected);
+
+    if (color) {
+      colorDefaultSelected.push(`${item.id}-${color.id}`)
+    }
+  })
+
+  const [colorSelected] = useState(colorDefaultSelected);
+  const [colorImg, setColorImg] = useState();
+
+  useEffect(() => {
+    const form_data = new FormData();
+    form_data.append('ids', [JSON.stringify(colorSelected)]);
+    fetch(`https://serai.ozanuzer.com/api/variant_images`, {
+      method: 'POST',
+      body: form_data
+    })
+    .then(r => r.json())
+    .then(data => setColorImg(data.Result.image));
+  }, [colorSelected])
+  
+  const handleChangeColor = async (item, checklist) => {
+    //const product = colors.find(f => f.color_details.find(c => c == item))
+    //console.log(product)
+    const form_data = new FormData();
+    form_data.append('ids', [JSON.stringify(checklist)]);
+    await fetch(`https://serai.ozanuzer.com/api/variant_images`, {
+      method: 'POST',
+      body: form_data
+    })
+    .then(r => r.json())
+    .then(data => {
+      setColorImg(data.Result.image)
+      setBigImg(data.Result.image)
+    });
+
+    setProductPrice(productPrice + Number(item.lastPrice))
+    console.log(colorImg)
+  }
 
   const country = [
     { id: 1, label: 'Türkiye' },
@@ -180,7 +221,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
 
               <div className={styles['group']}>
                 <div className={styles['group__img']}>
-                  <Image src='/images/custom/img-2.jpg' width={1388} height={980} alt={''} />
+                  {colorImg && <Image src={colorImg} width={1388} height={980} alt={'Interior Colors'} />}
                 </div>
                 
                 <CustomTitle 
@@ -190,7 +231,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
                   more
                   onClick={() => onClickMore('interior')}
                 />
-                <CustomListRadio data={interior} onClick={(item) => console.log(item)} />
+                <CustomListRadio data={colors} onChange={(item, checklist) => handleChangeColor(item, checklist)} />
 
                 <div className={styles['group__child']}>
                   <div className={styles['group__img']}>
@@ -497,6 +538,7 @@ export async function getStaticProps() {
   const interiors = await fetch(`${process.env.API_URL}/interiors`).then(r => r.json()).then(data => data.Result);
   const interiors_more_info_images = await fetch(`${process.env.API_URL}/interiors_more_info_images`).then(r => r.json()).then(data => data.Result);
   const exteriors_more_info_images = await fetch(`${process.env.API_URL}/exteriors_more_info_images`).then(r => r.json()).then(data => data.Result);
+  const variant_images = await fetch(`${process.env.API_URL}/variant_images`).then(r => r.json()).then(data => data.Result);
 
   return {
     props: {
@@ -505,7 +547,8 @@ export async function getStaticProps() {
       settings,
       interiors,
       interiors_more_info_images,
-      exteriors_more_info_images
+      exteriors_more_info_images,
+      variant_images
     },
     revalidate: 10,
   }
