@@ -344,7 +344,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
 
             <div className={styles['foot']}>
               <div className={styles['foot__title']}>Total Price:</div>
-              <div className={styles['foot__total']}>${productPrice}</div>
+              <div className={styles['foot__total']}>${new Intl.NumberFormat().format(productPrice)}</div>
             </div>
           </> }
 
@@ -412,29 +412,29 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
                       <tbody>
                         <tr>
                           <td>Serai One:</td>
-                          <td>${settings.product_price}</td>
+                          <td>${new Intl.NumberFormat().format(settings.product_price)}</td>
                         </tr>
                         {
                           selectedList.interiors?.colors?.map((item, index) => {
                             return (
                               <tr key={index}>
                                 <td>{item.product_title}</td>
-                                <td>${item.price}</td>
+                                <td>${new Intl.NumberFormat().format(item.price)}</td>
                               </tr>
                             )
                           })
                         }
                         <tr>
                           <td>Apliances {selectedList.interiors.appliances.title}:</td>
-                          <td>${selectedList.interiors.appliances.price}</td>
+                          <td>${new Intl.NumberFormat().format(selectedList.interiors.appliances.price)}</td>
                         </tr>
                         <tr>
                           <td>Mind {selectedList.interiors.mind.title}:</td>
-                          <td>${selectedList.interiors.mind.price}</td>
+                          <td>${new Intl.NumberFormat().format(selectedList.interiors.mind.price)}</td>
                         </tr>
                         <tr>
                           <td>Total:</td>
-                          <td><b>${productPrice}</b></td>
+                          <td><b>${new Intl.NumberFormat().format(productPrice)}</b></td>
                         </tr>
                         <tr>
                           <td>Ödenecek Tutar (20%):</td>
@@ -449,7 +449,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
                       <tbody>
                         <tr>
                           <td>Home Price:</td>
-                          <td>${settings.product_price}</td>
+                          <td>${new Intl.NumberFormat().format(settings.product_price)}</td>
                         </tr>
                         <tr>
                           <td>Destination Fee:</td>
@@ -461,7 +461,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
                         </tr>
                         <tr>
                           <td>Your Model Serai One:<br /><span>Excluding taxes & other fees</span></td>
-                          <td><b>${productPrice}</b></td>
+                          <td><b>${new Intl.NumberFormat().format(productPrice)}</b></td>
                         </tr>
                       </tbody>
                     </table>

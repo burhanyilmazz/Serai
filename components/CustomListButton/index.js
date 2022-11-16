@@ -36,8 +36,8 @@ export const CustomListButton = (props) => {
               {item.mini_image && <div className={styles['image']}><Image src={item.mini_image} width={60} height={60} alt={item.title} /></div>}
               <div className={styles['content']}>
                 <h5>{item.title}</h5>
-                {price && <h6>+{item.price}$</h6> }
-                {newPrice && <h6>{item.newPrice > 0 ? '+' : ''}{item.newPrice}$</h6> }
+                {price && <h6>+{new Intl.NumberFormat().format(item.price)}$</h6> }
+                {newPrice && <h6>{item.newPrice > 0 ? '+' : ''}{new Intl.NumberFormat().format(item.newPrice)}$</h6> }
                 {item.soon_status && <span>Çok Yakında</span>}
                 {item.tooltip && <Tooltip 
                   className={styles['tooltip']}
