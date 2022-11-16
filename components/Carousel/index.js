@@ -28,7 +28,7 @@ export const Carousel = (props) => {
           data?.map((item, index) => {
             return (
               <SwiperSlide key={index}>
-                <Image src={item.image} width={1388} height={980} alt={'slide'} />
+                <Image src={item.image} width={1388} height={980} alt={item.title} />
               </SwiperSlide>
             )
           })

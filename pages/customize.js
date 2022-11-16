@@ -8,7 +8,7 @@ import {useFormik} from 'formik'
 import styles from '../assets/styles/Customize.module.scss'
 import { Logo, Detail, CustomTitle, CustomListButton, CustomListRadio, FormSelect, Button, Icon, FormInput, PhoneFormInput, Carousel, SelectedList, Modal, ModalCarousel, FormCheckbox } from '../components';
 
-export default function Customize({exteriors, interiors, detailedinfo, settings, exteriors_more_info_images, interiors_more_info_images, variant_images}) {
+export default function Customize({exteriors, interiors, detailedinfo, settings, exteriors_more_info_images, interiors_more_info_images}) {
   const [isShowDetail, setIsShowDetail] = useState(false);
   const [isPageOne, setIsPageOne] = useState(true);
   const [isMore, setIsMore] = useState(false);
@@ -48,24 +48,35 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
     },
   })
 
+  useEffect(() => {
+    document.querySelector('html').classList.remove('snap');
+    document.querySelector('html').classList.remove('disable-scroll')
+  }, [])
+
   const handleChange = (name, item) => {
     if (name === 'exterior') {
       setExteriorImg(item.big_image);
+      setSelectedList({...selectedList, exteriors: item})
     }
-
+    
+    const interiors = selectedList.interiors;
     if (name === 'appliancess') {
       setAppliancesImg(item.big_image);
+      interiors.appliances = item;
+      setSelectedList({...selectedList, interiors})
     }
 
     if (name === 'mind') {
       setMindImg(item.big_image);
+      interiors.mind = item;
+      setSelectedList({...selectedList, interiors})
     }
 
     setBigImg(item.big_image)
     setProductPrice(productPrice + Number(item.lastPrice))
   };
 
-  const handleChangePermission = (newValue, name) => {
+  const handleChangePermission = () => {
     setCheckboxAllow(!checkboxAllow)
     formik.setFieldValue('permission', !checkboxAllow)
   };
@@ -90,16 +101,37 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
   const findImgMind = mind.find(item => item.is_selected);
   const [mindImg, setMindImg] = useState(findImgMind?.big_image || mind[0].big_image);
 
+  const [carousel, setCarousel] = useState([
+    { image: exteriorImg, title: 'exterior' },
+    { image: appliancesImg, title: 'appliances' },
+    { image: mindImg, title: 'mind' },
+  ]);
+
+  const allList = {
+    'exteriors': findImgExteriors, 
+    'interiors': {
+      'colors': [],
+      'appliances': findImgAppliances,
+      'mind': findImgMind
+    }
+  }
+
+  const [selectedList, setSelectedList] = useState(allList)
+
   const colorDefaultSelected = [];
   colors.map(item => {
     const color = item.color_details.find(filt => filt.is_selected);
-
+    
     if (color) {
+      color['product_id'] = item.id;
+      color['product_title'] = item.title;
+      allList['interiors'].colors.push(color)
       colorDefaultSelected.push(`${item.id}-${color.id}`)
     }
   })
-
+ 
   const [colorSelected] = useState(colorDefaultSelected);
+  
   const [colorImg, setColorImg] = useState();
 
   useEffect(() => {
@@ -110,12 +142,14 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
       body: form_data
     })
     .then(r => r.json())
-    .then(data => setColorImg(data.Result.image));
+    .then(data => {
+      setColorImg(data.Result.image)
+      setCarousel([...carousel, { image: data.Result.image, title: 'colors' }])
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [colorSelected])
   
   const handleChangeColor = async (item, checklist) => {
-    //const product = colors.find(f => f.color_details.find(c => c == item))
-    //console.log(product)
     const form_data = new FormData();
     form_data.append('ids', [JSON.stringify(checklist)]);
     await fetch(`https://serai.ozanuzer.com/api/variant_images`, {
@@ -126,12 +160,36 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
     .then(data => {
       setColorImg(data.Result.image)
       setBigImg(data.Result.image)
+      setCarousel([...carousel, { image: data.Result.image, title: 'colors' }])
     });
 
+    const interiors = selectedList.interiors;
+    const colors = interiors.colors;
+
+    colors.map(color => {
+      if (color.product_type === item.product_type) {
+        color['id'] = item.id;
+        color['lastPrice'] = item.lastPrice;
+        color['newPrice'] = item.newPrice;
+        color['price'] = item.price; 
+        color['product_id'] = item.product_id;
+        color['product_title'] = item.product_title;
+      }
+    })
+
+    allList['interiors'].colors.push(colors)
     setProductPrice(productPrice + Number(item.lastPrice))
-    console.log(colorImg)
   }
 
+  useEffect(() => {
+    setCarousel([
+      { image: selectedList.exteriors.big_image, title: 'exterior' },
+      { image: selectedList.interiors.appliances.big_image, title: 'appliances' },
+      { image: selectedList.interiors.mind.big_image, title: 'mind' },
+      { image: colorImg, title: 'colors' },
+    ])
+  }, [colorImg, selectedList])
+  
   const country = [
     { id: 1, label: 'Türkiye' },
     { id: 2, label: 'Sweden' },
@@ -139,14 +197,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
     { id: 4, label: 'Germany' },
   ]
 
-  const carousel = [
-    { image: '/images/custom/img-2.jpg' },
-    { image: '/images/custom/img-1.jpg' },
-    { image: '/images/custom/img-1.jpg' },
-    { image: '/images/custom/img-1.jpg' },
-  ]
-
-  const selectedList = [
+  const selectedBoxList = [
     {
       title: 'Reserve Online',
       description: 'Customer support will contact you'
@@ -187,7 +238,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
         <div className={styles['content']}>
           {!isPageOne &&<div className={styles['carousel']}>
             <Carousel data={carousel} className={classNames({'carousel__slider--list': !isSuccess})} />
-            {!isSuccess && <SelectedList data={selectedList} className={styles['selected-list']} /> }
+            {!isSuccess && <SelectedList data={selectedBoxList} className={styles['selected-list']} /> }
           </div>
           }
 
@@ -318,32 +369,35 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
                     button
                     onClick={() => console.log("sdas")}
                   /> }
+                  {console.log(selectedList)}
                   <div className={styles['basket']}>
                     <table>
                       <tbody>
                         <tr>
                           <th>Exterior</th>
-                          <td>Reynisfjara (Black)</td>
+                          <td>{selectedList.exteriors.title}</td>
                         </tr>
                         <tr>
                           <th className={styles['no-border']}>Interior</th>
                           <td className={styles['no-border']}>&nbsp;</td>
                         </tr>
-                        <tr>
-                          <td>Walls</td>
-                          <td>Lapland (White)</td>
-                        </tr>
-                        <tr>
-                          <td>Floors</td>
-                          <td>Lapland (White)</td>
-                        </tr>
+                        {
+                          selectedList.interiors?.colors?.map((item, index) => {
+                            return (
+                              <tr key={index}>
+                                <td>{item.product_type === 'walls_color' ? 'Wall' : 'Floors'}</td>
+                                <td>{item.product_title}</td>
+                              </tr>
+                            )
+                          })
+                        }
                         <tr>
                           <th>Appliances</th>
-                          <td>Ready for dinner</td>
+                          <td>{selectedList.interiors.appliances.title}</td>
                         </tr>
                         <tr>
                           <th>Mind</th>
-                          <td>IoT & AI</td>
+                          <td>{selectedList.interiors.mind.title}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -358,27 +412,29 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
                       <tbody>
                         <tr>
                           <td>Serai One:</td>
-                          <td>$82.000</td>
+                          <td>${settings.product_price}</td>
+                        </tr>
+                        {
+                          selectedList.interiors?.colors?.map((item, index) => {
+                            return (
+                              <tr key={index}>
+                                <td>{item.product_title}</td>
+                                <td>${item.price}</td>
+                              </tr>
+                            )
+                          })
+                        }
+                        <tr>
+                          <td>Apliances {selectedList.interiors.appliances.title}:</td>
+                          <td>${selectedList.interiors.appliances.price}</td>
                         </tr>
                         <tr>
-                          <td>Walls Lapland (White):</td>
-                          <td>$2.000</td>
+                          <td>Mind {selectedList.interiors.mind.title}:</td>
+                          <td>${selectedList.interiors.mind.price}</td>
                         </tr>
                         <tr>
-                          <td>Floors Lapland (White):</td>
-                          <td>$800</td>
-                        </tr>
-                        <tr>
-                          <td>Apliances Ready for dinner:</td>
-                          <td>$800</td>
-                        </tr>
-                        <tr>
-                          <td>Mind IOT and AI:</td>
-                          <td>$800</td>
-                        </tr>
-                        <tr>
-                          <td>Toplam:</td>
-                          <td><b>$128.000</b></td>
+                          <td>Total:</td>
+                          <td><b>${productPrice}</b></td>
                         </tr>
                         <tr>
                           <td>Ödenecek Tutar (20%):</td>
@@ -393,7 +449,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
                       <tbody>
                         <tr>
                           <td>Home Price:</td>
-                          <td>$82.000</td>
+                          <td>${settings.product_price}</td>
                         </tr>
                         <tr>
                           <td>Destination Fee:</td>
@@ -405,7 +461,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
                         </tr>
                         <tr>
                           <td>Your Model Serai One:<br /><span>Excluding taxes & other fees</span></td>
-                          <td><b>$92.800</b></td>
+                          <td><b>${productPrice}</b></td>
                         </tr>
                       </tbody>
                     </table>
@@ -485,7 +541,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
                       <div className='form-group'>
                         <FormCheckbox
                           label='<u>Lorem ipsum</u> dolor sit amet.'
-                          onChange={(newValue) => handleChangePermission(newValue, 'permission')}
+                          onChange={() => handleChangePermission()}
                           checked={checkboxAllow}
                           errorMessage={formik.errors.permission}
                           name={'permission'}
@@ -538,7 +594,6 @@ export async function getStaticProps() {
   const interiors = await fetch(`${process.env.API_URL}/interiors`).then(r => r.json()).then(data => data.Result);
   const interiors_more_info_images = await fetch(`${process.env.API_URL}/interiors_more_info_images`).then(r => r.json()).then(data => data.Result);
   const exteriors_more_info_images = await fetch(`${process.env.API_URL}/exteriors_more_info_images`).then(r => r.json()).then(data => data.Result);
-  const variant_images = await fetch(`${process.env.API_URL}/variant_images`).then(r => r.json()).then(data => data.Result);
 
   return {
     props: {
@@ -548,7 +603,6 @@ export async function getStaticProps() {
       interiors,
       interiors_more_info_images,
       exteriors_more_info_images,
-      variant_images
     },
     revalidate: 10,
   }
