@@ -56,10 +56,10 @@ export const CustomListRadio = (props) => {
                   {item.mini_image && <div className={styles['image']}><Image src={item.mini_image} width={48} height={48} alt={item.title} /></div>}
                   <div className={styles['content']}>
                     <h5>{item.title}</h5>
-                    {item?.tooltip && <Tooltip 
+                    {item?.content && <Tooltip 
                       className={styles['tooltip']}
-                      title={item.tooltip.title}
-                      desc={item.tooltip.description}
+                      title={item.title}
+                      desc={item.content}
                     />}
                     {item.soon_status && <span>Çok Yakında</span>}
                   </div>
