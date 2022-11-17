@@ -168,6 +168,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
   }, [colorSelected])
   
   const handleChangeColor = async (item, checklist) => {
+    setLoading(true)
     const form_data = new FormData();
     form_data.append('ids', [JSON.stringify(checklist)]);
     await fetch(`https://serai.ozanuzer.com/api/variant_images`, {
@@ -259,8 +260,8 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
 
           {isPageOne && 
             <>
-              <Image src={bigImg} width={1388} height={980} alt={'Serai One'} priority className='only-desktop' onLoad={() => setLoading(true)} onLoadingComplete={() => setLoading(false)} />
-              <Image src={exteriorImg} width={1388} height={980} alt={'Serai One'} priority className='only-mobile' onLoad={() => setLoading(true)} onLoadingComplete={() => setLoading(false)} />
+              <Image src={bigImg} width={1388} height={980} alt={'Serai One'} priority className='only-desktop' onLoadingComplete={() => setLoading(false)} />
+              <Image src={exteriorImg} width={1388} height={980} alt={'Serai One'} priority className='only-mobile' onLoadingComplete={() => setLoading(false)} />
             </>
           }
         </div>
@@ -288,7 +289,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
 
                 <div className={styles['group']}>
                   <div className={styles['group__img']}>
-                    {colorImg && <Image src={colorImg} width={1388} height={980} alt={'Interior Colors'} onLoad={() => setLoading(true)} onLoadingComplete={() => setLoading(false)} />}
+                    {colorImg && <Image src={colorImg} width={1388} height={980} alt={'Interior Colors'} onLoadingComplete={() => setLoading(false)} />}
                   </div>
                   
                   <CustomTitle 
