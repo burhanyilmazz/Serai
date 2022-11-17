@@ -33,7 +33,7 @@ export default function SeraiOne({seraione, address}) {
             <Button text={'Technical Specifications'} button onClick={() => setIsShowDetail(true)} />
           </div>
           <div className={styles['plans__image']}>
-            <Image src={seraione.section2_image} width={1077} height={403} alt={seraione.section2_title} />
+            <Image src={seraione.section2_image} width={1077} height={403} alt={seraione.section2_title || 'Serai One'} />
           </div>
         </section>
 
@@ -48,7 +48,7 @@ export default function SeraiOne({seraione, address}) {
               <div dangerouslySetInnerHTML={{__html: seraione.section4_left_content}} />
             </div>
             <div className={styles['kroki__image']}>
-              <Image src={seraione.section4_left_image} width={670} height={501} alt={seraione.section4_left_title} />
+              <Image src={seraione.section4_left_image} width={670} height={501} alt={seraione.section4_left_title || 'Serai One'} />
             </div>
           </div>
 
@@ -58,7 +58,7 @@ export default function SeraiOne({seraione, address}) {
               <div dangerouslySetInnerHTML={{__html: seraione.section4_right_content}} />
             </div>
             <div className={styles['kroki__image']}>
-              <Image src={seraione.section4_right_image} width={670} height={501} alt={seraione.section4_right_title} />
+              <Image src={seraione.section4_right_image} width={670} height={501} alt={seraione.section4_right_title || 'Serai One'} />
             </div>
           </div>
         </section>

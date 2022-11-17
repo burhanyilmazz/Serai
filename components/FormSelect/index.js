@@ -30,7 +30,7 @@ export const FormSelect = (props) => {
 FormSelect.propTypes = {
 	className: PropTypes.string,
 	field: PropTypes.string,
-	value: PropTypes.string,
+	value: PropTypes.object,
 	required: PropTypes.bool,
 	options: PropTypes.array,
 	placeholder: PropTypes.string,

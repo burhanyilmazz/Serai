@@ -17,7 +17,7 @@ export const SelectedList = (props) => {
                 {data.length - 1 === index && <Icon icon='flag' /> } {data.length - 1 !== index && <span>0{index + 1}</span>}
               </div>
               <h6>{item.title}</h6>
-              <p>{item.description}</p>
+              <p>{item.content}</p>
             </div>
           )
         })

@@ -8,7 +8,7 @@ import {useFormik} from 'formik'
 import styles from '../assets/styles/Customize.module.scss'
 import { Logo, Detail, CustomTitle, CustomListButton, CustomListRadio, FormSelect, Button, Icon, FormInput, PhoneFormInput, Carousel, SelectedList, Modal, ModalCarousel, FormCheckbox } from '../components';
 
-export default function Customize({exteriors, interiors, detailedinfo, settings, exteriors_more_info_images, interiors_more_info_images}) {
+export default function Customize({exteriors, interiors, detailedinfo, settings, exteriors_more_info_images, interiors_more_info_images, summarycontents, countries}) {
   const [isShowDetail, setIsShowDetail] = useState(false);
   const [isPageOne, setIsPageOne] = useState(true);
   const [isMore, setIsMore] = useState(false);
@@ -18,23 +18,23 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
   const [agreementModal, setAgreementModal] = useState(false);
   const [moreModal, setMoreModal] = useState();
   const [productPrice, setProductPrice] = useState(Number(settings.product_price));
+  const [selectedCountry, setSelectedCountry] = useState();
+  const [cityList, setCityList] = useState();
+  const [selectedCity, setSelectedCity] = useState();
 
-  const customizeSchema = Yup.object().shape({
-    email: Yup.string()
-      .email('Wrong format.')
-      .required('This field cannot be left blank.'),
-    namesurname: Yup.string().required('This field cannot be left blank.'),
-    phone: Yup.string().required('This field cannot be left blank.'),
-    permission: Yup.bool().oneOf([true], 'This field cannot be left blank.')
+  const [stepSchema, setStepSchema] = useState({
+    country: Yup.object().required('This field cannot be left blank.'),
+    city: Yup.object().required('This field cannot be left blank.'),
   })
 
+  const customizeSchema = Yup.object().shape(stepSchema)
   const [customize] = useState({
     namesurname: '',
     email: '',
     phone: '',
     country: '',
     city: '',
-    state: '',
+    street: '',
     permission: ''
   })
 
@@ -42,8 +42,25 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
     initialValues: customize,
     validationSchema: customizeSchema,
     onSubmit: async (values, {setSubmitting}) => {
-      setSubmitting(true)
-      setIsSuccess(true)
+      if (isPageOne) {
+        setIsPageOne(false)
+
+        setStepSchema({
+          namesurname: Yup.string().required('This field cannot be left blank.'),
+          phone: Yup.string().required('This field cannot be left blank.'),
+          email: Yup.string().email('Wrong format.').required('This field cannot be left blank.'),
+          country: Yup.object().required('This field cannot be left blank.'),
+          city: Yup.object().required('This field cannot be left blank.'),
+          street: Yup.string().required('This field cannot be left blank.'),
+          permission: Yup.bool().oneOf([true], 'This field cannot be left blank.'),
+        })
+
+      } else {
+        setIsSuccess(true)
+        setSubmitting(false)
+      }
+      document.querySelector('aside').scrollTo(0, 0)
+      window.scrollTo(0, 0)
       console.log(values)
     },
   })
@@ -189,40 +206,37 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
       { image: colorImg, title: 'colors' },
     ])
   }, [colorImg, selectedList])
-  
-  const country = [
-    { id: 1, label: 'Türkiye' },
-    { id: 2, label: 'Sweden' },
-    { id: 3, label: 'England' },
-    { id: 4, label: 'Germany' },
-  ]
 
-  const selectedBoxList = [
-    {
-      title: 'Reserve Online',
-      description: 'Customer support will contact you'
-    },
-    {
-      title: '10 %',
-      description: 'Reservation deposit'
-    },
-    {
-      title: '40 %',
-      description: 'Signing contract Start of production'
-    },
-    {
-      title: '12 -16 Weeks',
-      description: 'Production Time'
-    },
-    {
-      title: '30 %',
-      description: 'Final payment prior shipping'
-    },
-    {
-      title: '20%',
-      description: 'Final payment'
-    }
-  ]
+
+  const onChangeCountry = async (value) => {
+    formik.setFieldValue('country', value);
+    setSelectedCountry(value)
+
+    await fetch(`https://serai.ozanuzer.com/api/state/${value.id}`)
+      .then(r => r.json())
+      .then(data => {
+        setCityList(data.Result)
+      });
+  }
+
+  const onChangeCity = (value) => {
+    formik.setFieldValue('city', value);
+    setSelectedCity(value)
+  }
+
+  const onClickBackButton = () => {
+    setIsPageOne(true)
+    setStepSchema({
+      country: Yup.object().required('This field cannot be left blank.'),
+      city: Yup.object().required('This field cannot be left blank.'),
+    })
+  }
+  
+  const formatter = new Intl.DateTimeFormat('en', { month: 'short' });
+  const delayMonth = new Date(new Date().getTime()+(70*24*60*60*1000))
+  const month = delayMonth.getMonth() == 11 ? new Date(delayMonth.getFullYear() + 1, 0, 1) : new Date(delayMonth.getFullYear(), delayMonth.getMonth() + 1, 1);
+  const month1 = formatter.format(delayMonth);
+  const month2 = formatter.format(month);
 
   return (
     <>
@@ -231,14 +245,14 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
 
         {isPageOne && <div className={classNames(styles['head'], styles['head--title'], 'only-mobile')}>
           <h1>Serai One</h1>
-          <p>Est. Delivery: Oct - Dec 2022</p>
+          <p>Est. Delivery: {month1} - {month2} {delayMonth.getFullYear()}</p>
           <span onClick={() => setIsShowDetail(true)}>Learn about materials</span>
         </div>}
 
         <div className={styles['content']}>
           {!isPageOne &&<div className={styles['carousel']}>
             <Carousel data={carousel} className={classNames({'carousel__slider--list': !isSuccess})} />
-            {!isSuccess && <SelectedList data={selectedBoxList} className={styles['selected-list']} /> }
+            {!isSuccess && <SelectedList data={summarycontents} className={styles['selected-list']} /> }
           </div>
           }
 
@@ -251,315 +265,326 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
         </div>
 
         <aside className={styles['custom']}>
-          {isPageOne && <>
-            <div className={classNames(styles['head'], 'only-desktop')}>
-              <h1>Serai One</h1>
-              <p>Est. Delivery: Oct - Dec 2022</p>
-              <span onClick={() => setIsShowDetail(true)}>Learn about materials</span>
-            </div>
-
-            <div className={styles['body']}>
-              <div className={styles['group']}>
-                <CustomTitle 
-                  page={'1/6'}
-                  title={'Exterior'}
-                  desc={'Ut vel purus aliquam erat id nulla scelerisque, vitae viverra arcu ultricies.'}
-                  more
-                  onClick={() => onClickMore('exterior')}
-                />
-                <CustomListButton data={exteriors} onClick={(item) => handleChange('exterior', item)} />
+          <form onSubmit={formik.handleSubmit} noValidate>
+            {isPageOne && <>
+              <div className={classNames(styles['head'], 'only-desktop')}>
+                <h1>Serai One</h1>
+                <p>Est. Delivery: {month1} - {month2} {delayMonth.getFullYear()}</p>
+                <span onClick={() => setIsShowDetail(true)}>Learn about materials</span>
               </div>
-
-              <div className={styles['group']}>
-                <div className={styles['group__img']}>
-                  {colorImg && <Image src={colorImg} width={1388} height={980} alt={'Interior Colors'} />}
-                </div>
-                
-                <CustomTitle 
-                  page={'2/6'}
-                  title={'Interior'}
-                  desc={'Ut vel purus aliquam erat id nulla scelerisque, vitae viverra arcu ultricies.'}
-                  more
-                  onClick={() => onClickMore('interior')}
-                />
-                <CustomListRadio data={colors} onChange={(item, checklist) => handleChangeColor(item, checklist)} />
-
-                <div className={styles['group__child']}>
-                  <div className={styles['group__img']}>
-                    <Image src={appliancesImg} width={1388} height={980} alt={'Appliances'} />
-                  </div>
-
-                  <CustomTitle 
-                    page={'3/6'}
-                    subtitle={'Appliances'}
-                  />
-                  <CustomListButton data={appliances} onClick={(item) => handleChange('appliancess', item)} />
-                </div>
-
-                <div className={styles['group__child']}>
-                  <div className={styles['group__img']}>
-                    <Image src={mindImg} width={1388} height={980} alt={'Mind'} />
-                  </div>
-
-                  <CustomTitle 
-                    page={'4/6'}
-                    subtitle={'Mind'}
-                  />
-                  <CustomListButton data={mind} onClick={(item) => handleChange('mind', item)} />
-                </div>
-              </div>
-
-              <div className={styles['group']}>
-                <CustomTitle 
-                  page={'5/6'}
-                  title={'Address'}
-                  desc={'Please Choose Your Delivery Location'}
-                />
-                <div className='form-group'>
-                  <FormSelect 
-                    options={country}
-                    onChange={(value) => console.log(value)}
-                    field={'Country'}
-                    instanceId='country'
-                  />
-                </div>
-                <div className='form-group'>
-                  <FormSelect 
-                    options={country}
-                    onChange={(value) => console.log(value)}
-                    field={'City'}
-                    instanceId='city'
-                  />
-                </div>
-                <div className='form-group-buttons'>
-                  <Button text={'Next'} className={styles['button']} onClick={() => setIsPageOne(false)} />
-                </div>
-
-                <div className={styles['country-note']}>
-                  <h5>Order Your Serai One</h5>
-                  <h6>Est. Delivery: Oct - Dec 2022</h6>
-                </div>
-              </div>
-            </div>
-
-            <div className={styles['foot']}>
-              <div className={styles['foot__title']}>Total Price:</div>
-              <div className={styles['foot__total']}>${new Intl.NumberFormat().format(productPrice)}</div>
-            </div>
-          </> }
-
-          {!isPageOne && <>
-              {!isSuccess && <div className={styles['head']}>
-                <div className={styles['head__button']} onClick={() => setIsPageOne(true)}>
-                  <Icon icon={'arrow'} /> Edit Design
-                </div>
-              </div> }
 
               <div className={styles['body']}>
                 <div className={styles['group']}>
-                  {!isSuccess && <CustomTitle 
-                    page={'6/6'}
-                    title={'Summary'}
-                    desc={'Selected Product Specifications'}
-                    /> }
-                  {isSuccess && <CustomTitle 
-                    icon='times'
-                    title={'Order Confirmed'}
-                    desc={'Selected Product Specifications'}
-                    button
-                    onClick={() => console.log("sdas")}
-                  /> }
-                  {console.log(selectedList)}
-                  <div className={styles['basket']}>
-                    <table>
-                      <tbody>
-                        <tr>
-                          <th>Exterior</th>
-                          <td>{selectedList.exteriors.title}</td>
-                        </tr>
-                        <tr>
-                          <th className={styles['no-border']}>Interior</th>
-                          <td className={styles['no-border']}>&nbsp;</td>
-                        </tr>
-                        {
-                          selectedList.interiors?.colors?.map((item, index) => {
-                            return (
-                              <tr key={index}>
-                                <td>{item.product_type === 'walls_color' ? 'Wall' : 'Floors'}</td>
-                                <td>{item.product_title}</td>
-                              </tr>
-                            )
-                          })
-                        }
-                        <tr>
-                          <th>Appliances</th>
-                          <td>{selectedList.interiors.appliances.title}</td>
-                        </tr>
-                        <tr>
-                          <th>Mind</th>
-                          <td>{selectedList.interiors.mind.title}</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+                  <CustomTitle 
+                    page={'1/6'}
+                    title={'Exterior'}
+                    desc={'Ut vel purus aliquam erat id nulla scelerisque, vitae viverra arcu ultricies.'}
+                    more
+                    onClick={() => onClickMore('exterior')}
+                  />
+                  <CustomListButton data={exteriors} onClick={(item) => handleChange('exterior', item)} />
+                </div>
 
-                  <div className={styles['more-box']}>
-                    <div className={classNames(styles['more-box__button'], {[styles['more-box__button--more']]: isMore})} onClick={() => setIsMore(!isMore)}>
-                      { isMore ? 'Show' : 'Hide' } Details <Icon icon={'arrow'} />
-                    </div>
-
-                    {!isMore && <table>
-                      <tbody>
-                        <tr>
-                          <td>Serai One:</td>
-                          <td>${new Intl.NumberFormat().format(settings.product_price)}</td>
-                        </tr>
-                        {
-                          selectedList.interiors?.colors?.map((item, index) => {
-                            return (
-                              <tr key={index}>
-                                <td>{item.product_title}</td>
-                                <td>${new Intl.NumberFormat().format(item.price)}</td>
-                              </tr>
-                            )
-                          })
-                        }
-                        <tr>
-                          <td>Apliances {selectedList.interiors.appliances.title}:</td>
-                          <td>${new Intl.NumberFormat().format(selectedList.interiors.appliances.price)}</td>
-                        </tr>
-                        <tr>
-                          <td>Mind {selectedList.interiors.mind.title}:</td>
-                          <td>${new Intl.NumberFormat().format(selectedList.interiors.mind.price)}</td>
-                        </tr>
-                        <tr>
-                          <td>Total:</td>
-                          <td><b>${new Intl.NumberFormat().format(productPrice)}</b></td>
-                        </tr>
-                        <tr>
-                          <td>Ödenecek Tutar (20%):</td>
-                          <td><b>$1.500</b></td>
-                        </tr>
-                      </tbody>
-                    </table>}
-                  </div>
-
-                  <div className={styles['summary-box']}>
-                    <table>
-                      <tbody>
-                        <tr>
-                          <td>Home Price:</td>
-                          <td>${new Intl.NumberFormat().format(settings.product_price)}</td>
-                        </tr>
-                        <tr>
-                          <td>Destination Fee:</td>
-                          <td>$2.000</td>
-                        </tr>
-                        <tr>
-                          <td>Order Fee:</td>
-                          <td>$800</td>
-                        </tr>
-                        <tr>
-                          <td>Your Model Serai One:<br /><span>Excluding taxes & other fees</span></td>
-                          <td><b>${new Intl.NumberFormat().format(productPrice)}</b></td>
-                        </tr>
-                      </tbody>
-                    </table>
+                <div className={styles['group']}>
+                  <div className={styles['group__img']}>
+                    {colorImg && <Image src={colorImg} width={1388} height={980} alt={'Interior Colors'} />}
                   </div>
                   
-                  {!isSuccess && <div className={styles['form']}>
-                    <form onSubmit={formik.handleSubmit} noValidate>
-                      <h4>Contact Information</h4>
-                      
-                      <div className='form-group'>
-                        <FormInput 
-                          field='Full Name'
-                          required
-                          errorMessage={formik.errors.namesurname}
-                          {...formik.getFieldProps('namesurname')}
-                          className={classNames({'is-invalid': formik.touched.namesurname && formik.errors.namesurname})}
-                        />
-                      </div>
+                  <CustomTitle 
+                    page={'2/6'}
+                    title={'Interior'}
+                    desc={'Ut vel purus aliquam erat id nulla scelerisque, vitae viverra arcu ultricies.'}
+                    more
+                    onClick={() => onClickMore('interior')}
+                  />
+                  <CustomListRadio data={colors} onChange={(item, checklist) => handleChangeColor(item, checklist)} />
 
-                      <div className='form-group'>
-                        <PhoneFormInput 
-                          field='Phone'
-                          name='phone'
-                          required
-                          onChange={(value) => formik.setFieldValue('phone', value)}
-                        />
-                      </div>
+                  <div className={styles['group__child']}>
+                    <div className={styles['group__img']}>
+                      <Image src={appliancesImg} width={1388} height={980} alt={'Appliances'} />
+                    </div>
 
-                      <div className='form-group'>
-                        <FormInput 
-                          field='E-Mail'
-                          type="email" 
-                          required
-                          errorMessage={formik.errors.email}
-                          {...formik.getFieldProps('email')}
-                          className={classNames({'is-invalid': formik.touched.email && formik.errors.email})}
-                        />
-                      </div>
+                    <CustomTitle 
+                      page={'3/6'}
+                      subtitle={'Appliances'}
+                    />
+                    <CustomListButton data={appliances} onClick={(item) => handleChange('appliancess', item)} />
+                  </div>
 
-                      <h4>Address</h4>
+                  <div className={styles['group__child']}>
+                    <div className={styles['group__img']}>
+                      <Image src={mindImg} width={1388} height={980} alt={'Mind'} />
+                    </div>
 
-                      <div className='form-group'>
-                        <FormSelect 
-                          options={country}
-                          onChange={(value) => console.log(value)}
-                          field={'Country'}
-                          instanceId='country'
-                        />
-                      </div>
-                      <div className='form-group'>
-                        <FormInput 
-                          field='Street address or P:O. Box'
-                          required
-                          errorMessage={formik.errors.street}
-                          {...formik.getFieldProps('street')}
-                          className={classNames({'is-invalid': formik.touched.street && formik.errors.street})}
-                        />
-                      </div>
-                      <div className='form-group'>
-                        <div>
-                          <FormSelect 
-                            options={country}
-                            onChange={(value) => console.log(value)}
-                            field={'City'}
-                            instanceId='city'
-                          />
-                        </div>
-                        <div>
-                          <FormSelect 
-                            options={country}
-                            onChange={(value) => console.log(value)}
-                            field={'State'}
-                            instanceId='state'
-                          />
-                        </div>
-                      </div>
-                      <div className='form-group'>
-                        <FormCheckbox
-                          label='<u>Lorem ipsum</u> dolor sit amet.'
-                          onChange={() => handleChangePermission()}
-                          checked={checkboxAllow}
-                          errorMessage={formik.errors.permission}
-                          name={'permission'}
-                          required
-                          className={classNames({'is-invalid': formik.touched.permission && formik.errors.permission})}
-                          onClickText={() =>  setAgreementModal(true)}
-                        />
-                      </div>
-                      <div className='form-group-buttons'>
-                        <Button text={'Continue With Card'} button className={styles['button']} />
-                        <Button text={'Continue With X'} button className={styles['button']} thirty />
-                      </div>
-                    </form>
-                  </div> }
+                    <CustomTitle 
+                      page={'4/6'}
+                      subtitle={'Mind'}
+                    />
+                    <CustomListButton data={mind} onClick={(item) => handleChange('mind', item)} />
+                  </div>
+                </div>
+
+                <div className={styles['group']}>
+                  <CustomTitle 
+                    page={'5/6'}
+                    title={'Address'}
+                    desc={'Please Choose Your Delivery Location'}
+                  />
+                  <div className='form-group'>
+                    <FormSelect 
+                      options={countries}
+                      field={'Country'}
+                      instanceId='countries'
+                      required
+                      value={selectedCountry}
+                      onChange={(value) => onChangeCountry(value)}
+                      errorMessage={formik.errors.country}
+                      className={classNames({'is-invalid': formik.touched.country && formik.errors.country})}
+                    />
+                  </div>
+
+                  <div className='form-group'>
+                    <FormSelect 
+                      options={cityList}
+                      field={'City'}
+                      instanceId='cities'
+                      required
+                      value={selectedCity}
+                      onChange={(value) => onChangeCity(value)}
+                      errorMessage={formik.errors.city}
+                      className={classNames({'is-invalid': formik.touched.city && formik.errors.city})}
+                    />
+                  </div>
+                  <div className='form-group-buttons'>
+                    <Button text={'Next'} className={styles['button']} button />
+                  </div>
+
+                  <div className={styles['country-note']}>
+                    <h5>Order Your Serai One</h5>
+                    <h6>Est. Delivery: {month1} - {month2} {delayMonth.getFullYear()}</h6>
+                  </div>
                 </div>
               </div>
-            </>
-          }
+
+              <div className={styles['foot']}>
+                <div className={styles['foot__title']}>Total Price:</div>
+                <div className={styles['foot__total']}>${new Intl.NumberFormat().format(productPrice)}</div>
+              </div>
+            </> }
+
+            {!isPageOne && <>
+                {!isSuccess && <div className={styles['head']}>
+                  <div className={styles['head__button']} onClick={() => onClickBackButton()}>
+                    <Icon icon={'arrow'} /> Edit Design
+                  </div>
+                </div> }
+
+                <div className={styles['body']}>
+                  <div className={styles['group']}>
+                    {!isSuccess && <CustomTitle 
+                      page={'6/6'}
+                      title={'Summary'}
+                      desc={'Selected Product Specifications'}
+                      /> }
+                    {isSuccess && <CustomTitle 
+                      icon='times'
+                      title={'Order Confirmed'}
+                      desc={'Selected Product Specifications'}
+                      button
+                      onClick={() => console.log("sdas")}
+                    /> }
+
+                    <div className={styles['basket']}>
+                      <table>
+                        <tbody>
+                          <tr>
+                            <th>Exterior</th>
+                            <td>{selectedList.exteriors.title}</td>
+                          </tr>
+                          <tr>
+                            <th className={styles['no-border']}>Interior</th>
+                            <td className={styles['no-border']}>&nbsp;</td>
+                          </tr>
+                          {
+                            selectedList.interiors?.colors?.map((item, index) => {
+                              return (
+                                <tr key={index}>
+                                  <td>{item.product_type === 'walls_color' ? 'Wall' : 'Floors'}</td>
+                                  <td>{item.product_title}</td>
+                                </tr>
+                              )
+                            })
+                          }
+                          <tr>
+                            <th>Appliances</th>
+                            <td>{selectedList.interiors.appliances.title}</td>
+                          </tr>
+                          <tr>
+                            <th>Mind</th>
+                            <td>{selectedList.interiors.mind.title}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div className={styles['more-box']}>
+                      <div className={classNames(styles['more-box__button'], {[styles['more-box__button--more']]: isMore})} onClick={() => setIsMore(!isMore)}>
+                        { isMore ? 'Show' : 'Hide' } Details <Icon icon={'arrow'} />
+                      </div>
+
+                      {!isMore && <table>
+                        <tbody>
+                          <tr>
+                            <td>Serai One:</td>
+                            <td>${new Intl.NumberFormat().format(settings.product_price)}</td>
+                          </tr>
+                          {
+                            selectedList.interiors?.colors?.map((item, index) => {
+                              return (
+                                <tr key={index}>
+                                  <td>{item.product_type === 'walls_color' ? 'Wall' : 'Floors'} {item.product_title}</td>
+                                  <td>${new Intl.NumberFormat().format(item.price)}</td>
+                                </tr>
+                              )
+                            })
+                          }
+                          <tr>
+                            <td>Apliances {selectedList.interiors.appliances.title}:</td>
+                            <td>${new Intl.NumberFormat().format(selectedList.interiors.appliances.price)}</td>
+                          </tr>
+                          <tr>
+                            <td>Mind {selectedList.interiors.mind.title}:</td>
+                            <td>${new Intl.NumberFormat().format(selectedList.interiors.mind.price)}</td>
+                          </tr>
+                          <tr>
+                            <td>Total:</td>
+                            <td><b>${new Intl.NumberFormat().format(productPrice)}</b></td>
+                          </tr>
+                          <tr>
+                            <td>Amount of Payment ({settings.price_ratio}%):</td>
+                            <td><b>${new Intl.NumberFormat().format((productPrice * settings.price_ratio) / 100)}</b></td>
+                          </tr>
+                        </tbody>
+                      </table>}
+                    </div>
+
+                    <div className={styles['summary-box']}>
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td>Home Price:</td>
+                            <td>${new Intl.NumberFormat().format(settings.product_price)}</td>
+                          </tr>
+                          <tr>
+                            <td>Destination Fee:</td>
+                            <td>${new Intl.NumberFormat().format(selectedCountry.cargo_price)}</td>
+                          </tr>
+                          <tr>
+                            <td>Order Fee:</td>
+                            <td>${new Intl.NumberFormat().format(settings.service_fee)}</td>
+                          </tr>
+                          <tr>
+                            <td>Your Model Serai One:<br /><span>Excluding taxes & other fees</span></td>
+                            <td><b>${new Intl.NumberFormat().format(Number(productPrice) + Number(selectedCountry.cargo_price) + Number(settings.service_fee))}</b></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    
+                    {!isSuccess && <div className={styles['form']}>
+                      
+                        <h4>Contact Information</h4>
+                        
+                        <div className='form-group'>
+                          <FormInput 
+                            field='Full Name'
+                            required
+                            errorMessage={formik.errors.namesurname}
+                            {...formik.getFieldProps('namesurname')}
+                            className={classNames({'is-invalid': formik.touched.namesurname && formik.errors.namesurname})}
+                          />
+                        </div>
+
+                        <div className='form-group'>
+                          <PhoneFormInput 
+                            field='Phone'
+                            name='phone'
+                            required
+                            value={formik.values.phone}
+                            onChange={(value) => formik.setFieldValue('phone', value)}
+                            errorMessage={formik.errors.phone}
+                            className={classNames({'is-invalid': formik.touched.phone && formik.errors.phone})}
+                          />
+                        </div>
+
+                        <div className='form-group'>
+                          <FormInput 
+                            field='E-Mail'
+                            type="email" 
+                            required
+                            errorMessage={formik.errors.email}
+                            {...formik.getFieldProps('email')}
+                            className={classNames({'is-invalid': formik.touched.email && formik.errors.email})}
+                          />
+                        </div>
+
+                        <h4>Address</h4>
+
+                        <div className='form-group'>
+                          <FormSelect 
+                            options={countries}
+                            field={'Country'}
+                            instanceId='countries'
+                            required
+                            value={selectedCountry}
+                            onChange={(value) => onChangeCountry(value)}
+                            errorMessage={formik.errors.country}
+                            className={classNames({'is-invalid': formik.touched.country && formik.errors.country})}
+                          />
+                        </div>
+                        <div className='form-group'>
+                          <FormSelect 
+                            options={cityList}
+                            field={'City'}
+                            instanceId='cities'
+                            required
+                            value={selectedCity}
+                            onChange={(value) => onChangeCity(value)}
+                            errorMessage={formik.errors.city}
+                            className={classNames({'is-invalid': formik.touched.city && formik.errors.city})}
+                          />
+                        </div>
+                        <div className='form-group'>
+                          <FormInput 
+                            field='Street address or P:O. Box'
+                            required
+                            errorMessage={formik.errors.street}
+                            {...formik.getFieldProps('street')}
+                            className={classNames({'is-invalid': formik.touched.street && formik.errors.street})}
+                          />
+                        </div>
+                        <div className='form-group'>
+                          <FormCheckbox
+                            label='<u>Lorem ipsum</u> dolor sit amet.'
+                            onChange={() => handleChangePermission()}
+                            checked={checkboxAllow}
+                            errorMessage={formik.errors.permission}
+                            name={'permission'}
+                            required
+                            className={classNames({'is-invalid': formik.touched.permission && formik.errors.permission})}
+                            onClickText={() =>  setAgreementModal(true)}
+                          />
+                        </div>
+                        <div className='form-group-buttons'>
+                          <Button text={'Continue With Card'} button className={styles['button']} />
+                          <Button text={'Continue With X'} button className={styles['button']} thirty />
+                        </div>
+                    </div> }
+                  </div>
+                </div>
+              </>
+            }
+          </form>
         </aside>
       </section>
 
@@ -594,6 +619,8 @@ export async function getStaticProps() {
   const interiors = await fetch(`${process.env.API_URL}/interiors`).then(r => r.json()).then(data => data.Result);
   const interiors_more_info_images = await fetch(`${process.env.API_URL}/interiors_more_info_images`).then(r => r.json()).then(data => data.Result);
   const exteriors_more_info_images = await fetch(`${process.env.API_URL}/exteriors_more_info_images`).then(r => r.json()).then(data => data.Result);
+  const summarycontents = await fetch(`${process.env.API_URL}/summarycontents`).then(r => r.json()).then(data => data.Result);
+  const countries = await fetch(`${process.env.API_URL}/countries`).then(r => r.json()).then(data => data.Result);
 
   return {
     props: {
@@ -603,6 +630,8 @@ export async function getStaticProps() {
       interiors,
       interiors_more_info_images,
       exteriors_more_info_images,
+      summarycontents,
+      countries
     },
     revalidate: 10,
   }

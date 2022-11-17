@@ -11,7 +11,7 @@
     position: fixed;
     top: 20px;
     left: 48px;
-    z-index: 9;
+    z-index: 98;
 
     @media screen and (max-width: 1024px) {
       height: 79px;
@@ -57,6 +57,7 @@
   padding: 54px 0;
   padding-left: clamp(24px, 3.5vw, 64px);
   padding-right: clamp(24px, 3.5vw, 64px);
+  scroll-behavior: smooth;
 
   @media screen and (max-width: 1366px) {
     width: 40%;
