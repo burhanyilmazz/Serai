@@ -21,6 +21,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
   const [selectedCountry, setSelectedCountry] = useState();
   const [cityList, setCityList] = useState();
   const [selectedCity, setSelectedCity] = useState();
+  const [loading, setLoading] = useState(true);
 
   const [stepSchema, setStepSchema] = useState({
     country: Yup.object().required('This field cannot be left blank.'),
@@ -258,8 +259,8 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
 
           {isPageOne && 
             <>
-              <Image src={bigImg} width={1388} height={980} alt={'Serai One'} priority className='only-desktop' />
-              <Image src={exteriorImg} width={1388} height={980} alt={'Serai One'} priority className='only-mobile' />
+              <Image src={bigImg} width={1388} height={980} alt={'Serai One'} priority className='only-desktop' onLoad={() => setLoading(true)} onLoadingComplete={() => setLoading(false)} />
+              <Image src={exteriorImg} width={1388} height={980} alt={'Serai One'} priority className='only-mobile' onLoad={() => setLoading(true)} onLoadingComplete={() => setLoading(false)} />
             </>
           }
         </div>
@@ -287,7 +288,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
 
                 <div className={styles['group']}>
                   <div className={styles['group__img']}>
-                    {colorImg && <Image src={colorImg} width={1388} height={980} alt={'Interior Colors'} />}
+                    {colorImg && <Image src={colorImg} width={1388} height={980} alt={'Interior Colors'} onLoad={() => setLoading(true)} onLoadingComplete={() => setLoading(false)} />}
                   </div>
                   
                   <CustomTitle 
@@ -587,6 +588,10 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
           </form>
         </aside>
       </section>
+
+      {loading && <div className={styles['loading']}>
+        <Image src={'/images/loading.svg'} width={250} height={250} alt={'Loading'} priority />
+      </div> }
 
       {isMoreInfo && <Modal onClose={() => setIsMoreInfo(false)}>
         <ModalCarousel data={moreModal} />
