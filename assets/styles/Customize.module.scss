@@ -220,10 +220,16 @@
 .button {
   margin-top: 22px;
   width: 50%;
+
   a,
   button {
     width: 100%;
     justify-content: center;
+  }
+
+  > div {
+    overflow: hidden;
+    border-radius: 16px;
   }
 }
 

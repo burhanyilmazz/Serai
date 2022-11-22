@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image'
 import classNames from 'classnames';
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
 import * as Yup from 'yup'
 import {useFormik} from 'formik'
@@ -13,6 +14,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
   const [isPageOne, setIsPageOne] = useState(true);
   const [isMore, setIsMore] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isError, setIsError] = useState(false);
   const [isMoreInfo, setIsMoreInfo] = useState(false);
   const [checkboxAllow, setCheckboxAllow] = useState(true);
   const [agreementModal, setAgreementModal] = useState(false);
@@ -22,6 +24,10 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
   const [cityList, setCityList] = useState();
   const [selectedCity, setSelectedCity] = useState();
   const [loading, setLoading] = useState(true);
+  const [sendData, setSendData] = useState();
+  const [paypal, setPaypal] = useState(false);
+  const [paypalResponse, setPaypalResponse] = useState();
+
 
   const [stepSchema, setStepSchema] = useState({
     country: Yup.object().required('This field cannot be left blank.'),
@@ -36,13 +42,14 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
     country: '',
     city: '',
     street: '',
-    permission: ''
+    permission: true
   })
 
   const formik = useFormik({
     initialValues: customize,
     validationSchema: customizeSchema,
     onSubmit: async (values, {setSubmitting}) => {
+      setSubmitting(false)
       if (isPageOne) {
         setIsPageOne(false)
 
@@ -55,14 +62,9 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
           street: Yup.string().required('This field cannot be left blank.'),
           permission: Yup.bool().oneOf([true], 'This field cannot be left blank.'),
         })
-
-      } else {
-        setIsSuccess(true)
-        setSubmitting(false)
-      }
+      } 
       document.querySelector('aside').scrollTo(0, 0)
       window.scrollTo(0, 0)
-      console.log(values)
     },
   })
 
@@ -70,6 +72,17 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
     document.querySelector('html').classList.remove('snap');
     document.querySelector('html').classList.remove('disable-scroll')
   }, [])
+
+  useEffect(() => {
+    const values = formik.values;
+    const emptyData = []
+    for (const value in values) {
+      if (!values[value]) {
+        emptyData.push(value)
+      }
+    }
+    setPaypal(emptyData.length > 0 ? false : true)
+  }, [formik])
 
   const handleChange = (name, item) => {
     if (name === 'exterior') {
@@ -233,6 +246,46 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
       city: Yup.object().required('This field cannot be left blank.'),
     })
   }
+
+  const onClickPaypal = async () => {
+    await fetch(`https://serai.ozanuzer.com/api/order/generate_order_token`)
+          .then(r => r.json())
+          .then(data => {
+            setSendData({
+              ...selectedList, 
+              formData: formik.values, 
+              total_price: Number(productPrice) + Number(selectedCountry.cargo_price) + Number(settings.service_fee),
+              token: data.Result
+            })
+          });
+  }
+
+  const onApprovePaypal = (data, actions) => {
+    return actions.order.capture().then((details) => {
+      if (details.status === 'COMPLETED') {
+        setPaypalResponse({data, details})
+      }
+    });
+  }
+
+  useEffect(() => {
+    if (paypalResponse) {
+      setSendData({...sendData, paypal_data: paypalResponse})
+      setIsSuccess(true)
+      document.querySelector('aside').scrollTo(0, 0)
+      window.scrollTo(0, 0)
+
+      fetch(`https://serai.ozanuzer.com/api/order/store`, {
+        method: 'POST',
+        body: JSON.stringify({...sendData, paypal_data: paypalResponse})
+      })
+      .then(r => r.json())
+      .then(data => {
+        console.log(data.Result)
+      });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [paypalResponse])
   
   const formatter = new Intl.DateTimeFormat('en', { month: 'short' });
   const delayMonth = new Date(new Date().getTime()+(70*24*60*60*1000))
@@ -241,7 +294,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
   const month2 = formatter.format(month);
 
   return (
-    <>
+    <PayPalScriptProvider options={{ "client-id": "AZODvpwOqZ7yxEzQu-MOi3TKRpE9NJg5tSLYjLa9NhecH8lyV_qvtSKGqfURan9l3b_SSjjhv_LRIqa8" }}>
       <section className={styles['customize']}>
         <div className={styles['customize__logo']}><Logo /></div>
 
@@ -389,11 +442,17 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
                       desc={'Selected Product Specifications'}
                       /> }
                     {isSuccess && <CustomTitle 
+                      icon='check'
+                      title={'Order Confirmed'}
+                      desc={'Selected Product Specifications'}
+                    /> }
+                    
+                    {isError && <CustomTitle 
                       icon='times'
                       title={'Order Confirmed'}
                       desc={'Selected Product Specifications'}
                       button
-                      onClick={() => console.log("sdas")}
+                      onClick={() => onClickBackButton()}
                     /> }
 
                     <div className={styles['basket']}>
@@ -462,10 +521,6 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
                             <td>Total:</td>
                             <td><b>${new Intl.NumberFormat().format(productPrice)}</b></td>
                           </tr>
-                          <tr>
-                            <td>Amount of Payment ({settings.price_ratio}%):</td>
-                            <td><b>${new Intl.NumberFormat().format((productPrice * settings.price_ratio) / 100)}</b></td>
-                          </tr>
                         </tbody>
                       </table>}
                     </div>
@@ -475,7 +530,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
                         <tbody>
                           <tr>
                             <td>Home Price:</td>
-                            <td>${new Intl.NumberFormat().format(settings.product_price)}</td>
+                            <td>${new Intl.NumberFormat().format(productPrice)}</td>
                           </tr>
                           <tr>
                             <td>Destination Fee:</td>
@@ -488,6 +543,10 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
                           <tr>
                             <td>Your Model Serai One:<br /><span>Excluding taxes & other fees</span></td>
                             <td><b>${new Intl.NumberFormat().format(Number(productPrice) + Number(selectedCountry.cargo_price) + Number(settings.service_fee))}</b></td>
+                          </tr>
+                          <tr>
+                            <td>Amount of Payment ({settings.price_ratio}%):</td>
+                            <td><b>${new Intl.NumberFormat().format((Number(productPrice) + Number(selectedCountry.cargo_price) + Number(settings.service_fee) * settings.price_ratio) / 100)}</b></td>
                           </tr>
                         </tbody>
                       </table>
@@ -578,8 +637,28 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
                           />
                         </div>
                         <div className='form-group-buttons'>
-                          <Button text={'Continue With Card'} button className={styles['button']} />
-                          <Button text={'Continue With X'} button className={styles['button']} thirty />
+                          {!paypal && <Button img={'/images/paypal.svg'} button className={styles['button']} paypal /> }
+                          {paypal && <PayPalButtons 
+                            className={styles['button']}
+                            style={{ 
+                              layout: "horizontal",
+                              color:  'blue',
+                              height: 53,
+                            }}
+                            createOrder={(data, actions) => {
+                              return actions.order.create({
+                                purchase_units: [{
+                                  "amount":{
+                                    "currency_code":"USD",
+                                    "value": ((Number(productPrice) + Number(selectedCountry.cargo_price) + Number(settings.service_fee) * settings.price_ratio) / 100)
+                                  }
+                                }]
+                              });
+                            }}
+                            onClick={() => onClickPaypal()}
+                            onApprove={(data, actions) => onApprovePaypal(data, actions)}
+                            onError={() => isError(true)}
+                          /> }
                         </div>
                     </div> }
                   </div>
@@ -614,7 +693,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
           content={detailedinfo?.content} 
           onClickClose={() => setIsShowDetail(false)} 
         />
-    </>
+    </PayPalScriptProvider>
   )
 }
 

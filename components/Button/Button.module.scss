@@ -15,6 +15,7 @@
     color: #fff;
     border: 1px solid transparent;
     justify-content: center;
+    height: 53px;
   }
 
   &--secondary {
@@ -30,6 +31,14 @@
     button {
       border-color: #3A3CE6;
       background: #3A3CE6;
+    }
+  }
+
+  &--paypal {
+    a,
+    button {
+      border-color: #0070ba;
+      background: #0070ba;
     }
   }
 }
