@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image'
 import classNames from 'classnames';
-import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 
 import * as Yup from 'yup'
 import {useFormik} from 'formik'
@@ -168,7 +168,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
   useEffect(() => {
     const form_data = new FormData();
     form_data.append('ids', [JSON.stringify(colorSelected)]);
-    fetch(`https://serai.ozanuzer.com/api/variant_images`, {
+    fetch(`${process.env.API_URL}/variant_images`, {
       method: 'POST',
       body: form_data
     })
@@ -184,7 +184,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
     setLoading(true)
     const form_data = new FormData();
     form_data.append('ids', [JSON.stringify(checklist)]);
-    await fetch(`https://serai.ozanuzer.com/api/variant_images`, {
+    await fetch(`${process.env.API_URL}/variant_images`, {
       method: 'POST',
       body: form_data
     })
@@ -227,7 +227,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
     formik.setFieldValue('country', value);
     setSelectedCountry(value)
 
-    await fetch(`https://serai.ozanuzer.com/api/state/${value.id}`)
+    await fetch(`${process.env.API_URL}/state/${value.id}`)
       .then(r => r.json())
       .then(data => {
         setCityList(data.Result)
@@ -248,7 +248,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
   }
 
   const onClickPaypal = async () => {
-    await fetch(`https://serai.ozanuzer.com/api/order/generate_order_token`)
+    await fetch(`${process.env.API_URL}/order/generate_order_token`)
           .then(r => r.json())
           .then(data => {
             setSendData({
@@ -275,8 +275,11 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
       document.querySelector('aside').scrollTo(0, 0)
       window.scrollTo(0, 0)
 
-      fetch(`https://serai.ozanuzer.com/api/order/store`, {
+      fetch(`${process.env.API_URL}/order/store`, {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify({...sendData, paypal_data: paypalResponse})
       })
       .then(r => r.json())
@@ -286,7 +289,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paypalResponse])
-  
+
   const formatter = new Intl.DateTimeFormat('en', { month: 'short' });
   const delayMonth = new Date(new Date().getTime()+(70*24*60*60*1000))
   const month = delayMonth.getMonth() == 11 ? new Date(delayMonth.getFullYear() + 1, 0, 1) : new Date(delayMonth.getFullYear(), delayMonth.getMonth() + 1, 1);
@@ -294,7 +297,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
   const month2 = formatter.format(month);
 
   return (
-    <PayPalScriptProvider options={{ "client-id": "AZODvpwOqZ7yxEzQu-MOi3TKRpE9NJg5tSLYjLa9NhecH8lyV_qvtSKGqfURan9l3b_SSjjhv_LRIqa8" }}>
+    <PayPalScriptProvider options={{ 'client-id': process.env.CLIENT_ID }}>
       <section className={styles['customize']}>
         <div className={styles['customize__logo']}><Logo /></div>
 
@@ -581,7 +584,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
                         <div className='form-group'>
                           <FormInput 
                             field='E-Mail'
-                            type="email" 
+                            type='email' 
                             required
                             errorMessage={formik.errors.email}
                             {...formik.getFieldProps('email')}
@@ -641,16 +644,16 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
                           {paypal && <PayPalButtons 
                             className={styles['button']}
                             style={{ 
-                              layout: "horizontal",
+                              layout: 'horizontal',
                               color:  'blue',
                               height: 53,
                             }}
                             createOrder={(data, actions) => {
                               return actions.order.create({
                                 purchase_units: [{
-                                  "amount":{
-                                    "currency_code":"USD",
-                                    "value": ((Number(productPrice) + Number(selectedCountry.cargo_price) + Number(settings.service_fee) * settings.price_ratio) / 100)
+                                  'amount':{
+                                    'currency_code':'USD',
+                                    'value': ((Number(productPrice) + Number(selectedCountry.cargo_price) + Number(settings.service_fee) * settings.price_ratio) / 100)
                                   }
                                 }]
                               });
