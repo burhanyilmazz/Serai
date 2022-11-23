@@ -16,6 +16,12 @@
     border: 1px solid transparent;
     justify-content: center;
     height: 53px;
+
+    @media (hover: hover) {
+      &:hover {
+        background: rgba($color: #2176ff, $alpha: 0.9);
+      }
+    }
   }
 
   &--secondary {
@@ -23,14 +29,20 @@
     button {
       border-color: #fff;
       background: transparent;
+
+      @media (hover: hover) {
+        &:hover {
+          background: transparent;
+        }
+      }
     }
   }
 
   &--thirty {
     a,
     button {
-      border-color: #3A3CE6;
-      background: #3A3CE6;
+      border-color: #3a3ce6;
+      background: #3a3ce6;
     }
   }
 
@@ -39,6 +51,12 @@
     button {
       border-color: #0070ba;
       background: #0070ba;
+      @media (hover: hover) {
+        &:hover {
+          background: #0070ba;
+          filter: brightness(0.95);
+        }
+      }
     }
   }
 }

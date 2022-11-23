@@ -549,7 +549,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
                           </tr>
                           <tr>
                             <td>Amount of Payment ({settings.price_ratio}%):</td>
-                            <td><b>${new Intl.NumberFormat().format((Number(productPrice) + Number(selectedCountry.cargo_price) + Number(settings.service_fee) * settings.price_ratio) / 100)}</b></td>
+                            <td><b>${new Intl.NumberFormat().format(((Number(productPrice) + Number(selectedCountry.cargo_price) + Number(settings.service_fee)) * settings.price_ratio) / 100)}</b></td>
                           </tr>
                         </tbody>
                       </table>
@@ -653,7 +653,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
                                 purchase_units: [{
                                   'amount':{
                                     'currency_code':'USD',
-                                    'value': ((Number(productPrice) + Number(selectedCountry.cargo_price) + Number(settings.service_fee) * settings.price_ratio) / 100)
+                                    'value': ((Number(productPrice) + Number(selectedCountry.cargo_price) + Number(settings.service_fee)) * settings.price_ratio) / 100
                                   }
                                 }]
                               });

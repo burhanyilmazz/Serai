@@ -11,7 +11,21 @@ export default function Home({sliders, detailedinfo, address}) {
   const [isShowDetail, setIsShowDetail] = useState(false)
 
   useEffect(() => {
-    document.querySelector('html').classList.add('snap')
+    document.querySelector('html').classList.add('snap');
+
+    window.addEventListener("scroll", () => {
+      var reveals = document.querySelectorAll("section");
+
+      for (var i = 0; i < reveals.length; i++) {
+        var windowHeight = window.innerHeight;
+        var elementTop = reveals[i].getBoundingClientRect().top;
+        var elementVisible = 150;
+
+        if (elementTop < windowHeight - elementVisible) {
+          if (i !== 0) reveals[i].classList.add(styles["active"]);
+        } 
+      }
+    });
   }, [])
   
   return (

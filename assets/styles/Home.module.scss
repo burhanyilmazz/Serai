@@ -33,6 +33,9 @@
     font-size: clamp(30px, 5vw, 82px);
     line-height: clamp(36px, 5vw, 94px);
     color: #fff;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+    animation-name: fadeInUp;
     @media screen and (max-width: 1024px) {
       color: #171454;
     }
@@ -86,6 +89,19 @@
       width: 100%;
     }
   }
+
+  > div {
+    &:first-child {
+      animation-duration: 1s;
+      animation-fill-mode: both;
+      animation-name: fadeInLeft;
+    }
+    &:last-child {
+      animation-duration: 1s;
+      animation-fill-mode: both;
+      animation-name: fadeInRight;
+    }
+  }
 }
 
 .mouse {
@@ -94,5 +110,46 @@
   bottom: 88px;
   @media screen and (max-width: 1024px) {
     display: none;
+  }
+}
+
+.active {
+  .desc {
+    animation-duration: 1s;
+    animation-fill-mode: both;
+    animation-name: fadeInUp;
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 20%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translateZ(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  0% {
+    opacity: 0;
+    transform: translate3d(-20%, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translateZ(0);
+  }
+}
+
+@keyframes fadeInRight {
+  0% {
+    opacity: 0;
+    transform: translate3d(20%, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translateZ(0);
   }
 }
