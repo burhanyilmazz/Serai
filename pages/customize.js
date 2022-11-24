@@ -222,7 +222,6 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
     ])
   }, [colorImg, selectedList])
 
-
   const onChangeCountry = async (value) => {
     formik.setFieldValue('country', value);
     setSelectedCountry(value)
@@ -660,7 +659,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
                             }}
                             onClick={() => onClickPaypal()}
                             onApprove={(data, actions) => onApprovePaypal(data, actions)}
-                            onError={() => isError(true)}
+                            onError={() => setIsError(true)}
                           /> }
                         </div>
                     </div> }

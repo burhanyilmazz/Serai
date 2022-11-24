@@ -26,7 +26,7 @@ export const Header = () => {
         <div className={classNames(styles['nav'], {[styles['nav--open']]: isOpen})}>
           <Nav />
           <div className={styles['right-nav']}>
-            <Link href='/customize'>Customize Your Home</Link>
+            <Link href='/customize'>Customize</Link>
           </div>
           <SocialMedia className={styles['social-media']} />
         </div>

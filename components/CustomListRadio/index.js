@@ -98,6 +98,7 @@ export const CustomListRadio = (props) => {
                       <label>
                         <input type='radio' name={color.product_type} value={color.price || 0} defaultChecked={color.is_selected} data-id={`${item.id}-${color.id}`} onChange={() => handleChange(color, item)} />
                       </label>
+                      {item.id}-{color.id}
                     </td>
                   )
                 })
