@@ -180,7 +180,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [colorSelected])
   
-  const handleChangeColor = async (item, checklist) => {
+  const handleChangeColor = async (item, checklist, radioListObj) => {
     setLoading(true)
     const form_data = new FormData();
     form_data.append('ids', [JSON.stringify(checklist)]);
@@ -195,21 +195,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
       setCarousel([...carousel, { image: data.Result.image, title: 'colors' }])
     });
 
-    const interiors = selectedList.interiors;
-    const colors = interiors.colors;
-
-    colors.map(color => {
-      if (color.product_type === item.product_type) {
-        color['id'] = item.id;
-        color['lastPrice'] = item.lastPrice;
-        color['newPrice'] = item.newPrice;
-        color['price'] = item.price; 
-        color['product_id'] = item.product_id;
-        color['product_title'] = item.product_title;
-      }
-    })
-
-    allList['interiors'].colors.push(colors)
+    allList['interiors'].colors = radioListObj;
     setProductPrice(productPrice + Number(item.lastPrice))
   }
 
@@ -354,7 +340,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
                     more
                     onClick={() => onClickMore('interior')}
                   />
-                  <CustomListRadio data={colors} onChange={(item, checklist) => handleChangeColor(item, checklist)} />
+                  <CustomListRadio data={colors} onChange={(item, checklist, radioListObj) => handleChangeColor(item, checklist, radioListObj)} />
 
                   <div className={styles['group__child']}>
                     <div className={styles['group__img']}>
