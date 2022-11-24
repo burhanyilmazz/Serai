@@ -8,6 +8,7 @@ export const Layout = (props) => {
   useEffect(() => {
     document.querySelector('html').classList.remove('snap');
     document.querySelector('html').classList.remove('disable-scroll')
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [])
 
   return (
@@ -15,7 +16,7 @@ export const Layout = (props) => {
       <Head>
         <title>Serai</title>
         <meta name="description" content="Serai" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/images/favicon.svg" />
       </Head>
 
       <Header />

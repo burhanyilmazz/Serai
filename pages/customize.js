@@ -64,7 +64,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
         })
       } 
       document.querySelector('aside').scrollTo(0, 0)
-      window.scrollTo(0, 0)
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     },
   })
 
@@ -273,7 +273,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
       setSendData({...sendData, paypal_data: paypalResponse})
       setIsSuccess(true)
       document.querySelector('aside').scrollTo(0, 0)
-      window.scrollTo(0, 0)
+      window.scrollTo({ top: 0, behavior: 'smooth' });
 
       fetch(`${process.env.API_URL}/order/store`, {
         method: 'POST',

@@ -19,7 +19,8 @@
 }
 
 .footer {
-  padding: 120px 0 100px;
+  padding-top: clamp(36px, 3vw, 120px);
+  padding-bottom: clamp(36px, 3vw, 100px);
   background: #fff;
 
   @media screen and (max-width: 1024px) {

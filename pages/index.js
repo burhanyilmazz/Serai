@@ -12,16 +12,17 @@ export default function Home({sliders, detailedinfo, address}) {
 
   useEffect(() => {
     document.querySelector('html').classList.add('snap');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 
     window.addEventListener("scroll", () => {
-      var reveals = document.querySelectorAll("section");
+      const reveals = document.querySelectorAll("section");
 
-      for (var i = 0; i < reveals.length; i++) {
-        var windowHeight = window.innerHeight;
-        var elementTop = reveals[i].getBoundingClientRect().top;
-        var elementVisible = 150;
+      for (let i = 0; i < reveals.length; i++) {
+        const windowHeight = window.innerHeight;
+        const elementTop = reveals[i].getBoundingClientRect().top;
+        //const elementVisible = 150;
 
-        if (elementTop < windowHeight - elementVisible) {
+        if (elementTop < windowHeight) {
           if (i !== 0) reveals[i].classList.add(styles["active"]);
         } 
       }
@@ -49,7 +50,7 @@ export default function Home({sliders, detailedinfo, address}) {
                         <p>{item.content}</p>
                       </div>
                       <div className={styles['buttons']}>
-                        <Button text={'Custimize'} locale href='/customize' />
+                        <Button text={'Customize'} locale href='/customize' />
                         <Button text={'Details'} button secondary onClick={() => setIsShowDetail(true)} />
                       </div>
                     </div>
