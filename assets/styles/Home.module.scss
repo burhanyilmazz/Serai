@@ -50,6 +50,9 @@
     color: #fff;
     width: 394px;
     margin-top: clamp(8px, 2vw, 24px);
+    animation-duration: 1s;
+    animation-fill-mode: both;
+    animation-name: fadeInUp;
 
     @media screen and (max-width: 1024px) {
       width: 100%;

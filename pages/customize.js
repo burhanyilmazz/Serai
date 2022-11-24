@@ -676,11 +676,11 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
       </Modal> }
       
       <Detail 
-          isShow={isShowDetail} 
-          title={detailedinfo?.title} 
-          content={detailedinfo?.content} 
-          onClickClose={() => setIsShowDetail(false)} 
-        />
+        isShow={isShowDetail} 
+        title={detailedinfo?.title} 
+        content={detailedinfo?.content} 
+        onClickClose={() => setIsShowDetail(false)} 
+      />
     </PayPalScriptProvider>
   )
 }
