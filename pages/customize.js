@@ -658,7 +658,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
       </section>
 
       {loading && <div className={styles['loading']}>
-        <Image src={'/images/loading.svg'} width={250} height={250} alt={'Loading'} priority />
+        <Image src={'/images/logo/logo-2.svg'} width={250} height={250} alt={'Loading'} priority />
       </div> }
 
       {isMoreInfo && <Modal onClose={() => setIsMoreInfo(false)}>
