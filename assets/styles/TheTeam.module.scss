@@ -11,7 +11,7 @@
       justify-content: space-between;
       gap: 24px;
 
-      @media screen and (max-width: 1366px) {
+      @media screen and (max-width: 1280px) {
         flex-direction: column;
       }
 
@@ -21,7 +21,7 @@
 
       > figure {
         width: calc(50% - 12px);
-        @media screen and (max-width: 1366px) {
+        @media screen and (max-width: 1280px) {
           width: 100%;
         }
 
@@ -44,7 +44,7 @@
 
         &:nth-child(2) {
           transform: translateY(113px);
-          @media screen and (max-width: 1366px) {
+          @media screen and (max-width: 1280px) {
             transform: translateY(0);
           }
         }
@@ -58,7 +58,7 @@
       gap: 78px;
       margin: 313px auto 40px;
 
-      @media screen and (max-width: 1366px) {
+      @media screen and (max-width: 1280px) {
         margin-top: 124px;
         margin-bottom: 0;
       }

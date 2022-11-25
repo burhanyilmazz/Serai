@@ -66,26 +66,42 @@ vertical-align: top;
   content: "\f107";
   }
 
-  %icon-mouse {
+  %icon-instagram {
   content: "\f108";
+  }
+
+  .icon-instagram:before {
+  content: "\f108";
+  }
+
+  %icon-linkedin {
+  content: "\f109";
+  }
+
+  .icon-linkedin:before {
+  content: "\f109";
+  }
+
+  %icon-mouse {
+  content: "\f10a";
   }
 
   .icon-mouse:before {
-  content: "\f108";
+  content: "\f10a";
   }
 
   %icon-times {
-  content: "\f109";
+  content: "\f10b";
   }
 
   .icon-times:before {
-  content: "\f109";
+  content: "\f10b";
   }
 
   %icon-twitter {
-  content: "\f10a";
+  content: "\f10c";
   }
 
   .icon-twitter:before {
-  content: "\f10a";
+  content: "\f10c";
   }

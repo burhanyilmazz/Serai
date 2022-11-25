@@ -14,9 +14,10 @@ export const Layout = (props) => {
   return (
     <>
       <Head>
-        <title>Serai</title>
-        <meta name="description" content="Serai" />
+        <title>Serai One</title>
+        <meta name="description" content="Serai One" />
         <link rel="icon" href="/images/favicon.svg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
       </Head>
 
       <Header />
