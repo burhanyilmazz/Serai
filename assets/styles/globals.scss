@@ -198,10 +198,19 @@ ul {
       height: 52px !important;
       border-radius: 36px !important;
 
+      @media screen and (max-width: 1024px) {
+        width: 36px !important;
+        height: 36px !important;
+      }
+
       &:after {
         font-size: 15px !important;
         color: #171454 !important;
         text-shadow: -1px 0px 0px #171454;
+
+        @media screen and (max-width: 1024px) {
+          font-size: 10px !important;
+        }
       }
     }
   }
@@ -281,6 +290,10 @@ ul {
 
 .modal-carousel__slider {
   padding: 0 82px !important;
+
+  @media screen and (max-width: 1024px) {
+    padding: 0 !important;
+  }
   .swiper {
     &-wrapper {
       border-radius: 30px;

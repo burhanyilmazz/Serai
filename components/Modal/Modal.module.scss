@@ -36,9 +36,20 @@
   border-radius: 100%;
   cursor: pointer;
 
+  @media screen and (max-width: 1024px) {
+    top: -15px;
+    right: -15px;
+    width: 40px;
+    height: 40px;
+  }
+
   i {
     &:before {
       font-size: 40px;
+
+      @media screen and (max-width: 1024px) {
+        font-size: 32px;
+      }
     }
   }
 }
