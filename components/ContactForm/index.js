@@ -29,7 +29,14 @@ export const ContactForm = (props) => {
     validationSchema: contactSchema,
     onSubmit: async (values, {setSubmitting}) => {
       setSubmitting(true)
-      console.log(values)
+
+      await fetch(`${process.env.API_URL}/contact_form`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: values
+      }).then(r => r.json()).then(data => data);
     },
   })
   

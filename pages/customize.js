@@ -9,7 +9,7 @@ import {useFormik} from 'formik'
 import styles from '../assets/styles/Customize.module.scss'
 import { Logo, Detail, CustomTitle, CustomListButton, CustomListRadio, FormSelect, Button, Icon, FormInput, PhoneFormInput, Carousel, SelectedList, Modal, ModalCarousel, FormCheckbox } from '../components';
 
-export default function Customize({exteriors, interiors, detailedinfo, settings, exteriors_more_info_images, interiors_more_info_images, summarycontents, countries}) {
+export default function Customize({exteriors, interiors, detailedinfo, settings, exteriors_more_info_images, interiors_more_info_images, summarycontents, countries, statics}) {
   const [isShowDetail, setIsShowDetail] = useState(false);
   const [isPageOne, setIsPageOne] = useState(true);
   const [isMore, setIsMore] = useState(false);
@@ -321,7 +321,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
                   <CustomTitle 
                     page={'1/6'}
                     title={'Exterior'}
-                    desc={'Ut vel purus aliquam erat id nulla scelerisque, vitae viverra arcu ultricies.'}
+                    desc={statics.exterior_mini_info}
                     more
                     onClick={() => onClickMore('exterior')}
                   />
@@ -336,7 +336,7 @@ export default function Customize({exteriors, interiors, detailedinfo, settings,
                   <CustomTitle 
                     page={'2/6'}
                     title={'Interior'}
-                    desc={'Ut vel purus aliquam erat id nulla scelerisque, vitae viverra arcu ultricies.'}
+                    desc={statics.interior_mini_info}
                     more
                     onClick={() => onClickMore('interior')}
                   />
@@ -694,6 +694,7 @@ export async function getStaticProps() {
   const exteriors_more_info_images = await fetch(`${process.env.API_URL}/exteriors_more_info_images`).then(r => r.json()).then(data => data.Result);
   const summarycontents = await fetch(`${process.env.API_URL}/summarycontents`).then(r => r.json()).then(data => data.Result);
   const countries = await fetch(`${process.env.API_URL}/countries`).then(r => r.json()).then(data => data.Result);
+  const statics = await fetch(`${process.env.API_URL}/statics`).then(r => r.json()).then(data => data.Result);
 
   return {
     props: {
@@ -704,7 +705,8 @@ export async function getStaticProps() {
       interiors_more_info_images,
       exteriors_more_info_images,
       summarycontents,
-      countries
+      countries,
+      statics
     },
     revalidate: 10,
   }

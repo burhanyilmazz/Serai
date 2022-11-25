@@ -13,7 +13,7 @@ const nextConfig = {
    },
    env: {
       API_URL: 'https://serai.ozanuzer.com/api',
-      CLIENT_ID: 'AZODvpwOqZ7yxEzQu-MOi3TKRpE9NJg5tSLYjLa9NhecH8lyV_qvtSKGqfURan9l3b_SSjjhv_LRIqa8'
+      CLIENT_ID: 'ATP2kEeL36DeIOPmtFy_tejwLu8eLDomgrtBYMEHrsuGyC7MUbJw0U09Q_ViSFJ6zJnzUJk0Q3Ke1bKG'
     },
 }
 
