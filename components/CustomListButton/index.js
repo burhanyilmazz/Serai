@@ -38,7 +38,7 @@ export const CustomListButton = (props) => {
                 <h5>{item.title}</h5>
                 {price && <h6>+{new Intl.NumberFormat().format(item.price)}$</h6> }
                 {newPrice && <h6>{item.newPrice > 0 ? '+' : ''}{new Intl.NumberFormat().format(item.newPrice)}$</h6> }
-                {item.soon_status && <span>Cooming Soon</span>}
+                {item.soon_status && <span>Coming soon</span>}
                 {item.content && !item.soon_status && <Tooltip 
                   className={styles['tooltip']}
                   title={item.title}
