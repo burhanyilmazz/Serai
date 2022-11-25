@@ -12,21 +12,21 @@
     top: 160px;
     text-align: center;
 
-    @media screen and (max-width: 1024px) {
+    @media screen and (max-width: 1366px) {
       top: 130px
     }
 
     h1 {
       font-weight: 200;
-      font-size: clamp(30px, 5vw, 64px);
-      line-height: clamp(36px, 5vw, 77px);
-      margin-bottom: clamp(8px, 5vw, 16px);
+      font-size: clamp(30px, 4vw, 64px);
+      line-height: clamp(36px, 4vw, 77px);
+      margin-bottom: clamp(8px, 4vw, 16px);
     }
 
     p {
       font-weight: 400;
-      font-size: clamp(13px, 1.5vw, 20px);
-      line-height: clamp(21px, 2vw, 32px);
+      font-size: clamp(13px, 1.2vw, 20px);
+      line-height: clamp(21px, 1.6vw, 32px);
     }
 
     &--bottom {
@@ -37,10 +37,7 @@
   }
 
   &__scroll {
-    position: absolute;
     z-index: 2;
-    left: 50%;
-    margin-left: -26px;
     bottom: 88px;
 
     @media screen and (max-width: 1024px) {

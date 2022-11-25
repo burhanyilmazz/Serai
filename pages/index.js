@@ -43,7 +43,7 @@ export default function Home({sliders, detailedinfo, address}) {
                   </picture>
                 </div>
                 <div className={styles['content']}>
-                  <div className={classNames('container', {[styles['flex-end']]: index === 0})}>
+                  <div className={classNames(styles['container'], {[styles['flex-end']]: index === 0})}>
                     <div className={styles['desc']}>
                       <div>
                         <h1>{item.title}</h1>
@@ -55,7 +55,7 @@ export default function Home({sliders, detailedinfo, address}) {
                       </div>
                     </div>
                   </div>
-                  <ScrollIcon className={styles['mouse']} />
+                  {index === 0 && <ScrollIcon className={styles['mouse']} /> }
                 </div>
               </section>
             )

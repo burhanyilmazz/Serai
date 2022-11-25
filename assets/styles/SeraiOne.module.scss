@@ -3,6 +3,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 180px 140px;
+  background: #fff;
 
   @media screen and (max-width: 1024px) {
     flex-direction: column;
@@ -46,6 +47,7 @@
   padding: 100px 0;
   padding-left: clamp(100px, 15vw, 280px);
   padding-right: clamp(100px, 15vw, 280px);
+  background: #fff;
 
   @media screen and (max-width: 1024px) {
     padding: 36px 0;

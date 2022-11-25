@@ -4,7 +4,7 @@ import { Navigation, A11y, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { Layout } from '../layout'
-import { Button, Hero, Detail } from '../components';
+import { Button, Hero, Detail, Modal, ModalCarousel } from '../components';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -15,6 +15,7 @@ import classNames from 'classnames';
 
 export default function SeraiOne({seraione, address}) {
   const [isShowDetail, setIsShowDetail] = useState(false);
+  const [isShowModal, setIsShowModal] = useState();
 
   return (
     <>
@@ -87,7 +88,7 @@ export default function SeraiOne({seraione, address}) {
               }
             }
           >
-            { seraione.slider.map((item, index) => <SwiperSlide key={index}><Image src={item.image} width={1086} height={502} alt='Serai One' /></SwiperSlide>)}
+            { seraione.slider.map((item, index) => <SwiperSlide key={index}><Image src={item.image} width={1086} height={502} alt='Serai One' onClick={() => setIsShowModal([{image: item.image}])} /></SwiperSlide>)}
           </Swiper>
         </section>
 
@@ -97,6 +98,10 @@ export default function SeraiOne({seraione, address}) {
           content={seraione?.section2_technical_specs} 
           onClickClose={() => setIsShowDetail(false)} 
         />
+
+        {isShowModal && <Modal onClose={() => setIsShowModal(null)}>
+          <ModalCarousel data={isShowModal} />
+        </Modal> }
       </Layout>
     </>
   )

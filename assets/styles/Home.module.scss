@@ -15,6 +15,18 @@
   }
 }
 
+.container {
+  width: calc(100% - 400px);
+  margin-left: clamp(24px, 10vw, 200px);
+  margin-right: clamp(24px, 10vw, 200px);
+
+  @media screen and (max-width: 1024px) {
+    width: 100%;
+    margin: auto;
+    padding: 0 24px;
+  }
+}
+
 .desc {
   width: 536px;
 
@@ -30,8 +42,8 @@
 
   h1 {
     font-weight: 200;
-    font-size: clamp(30px, 5vw, 82px);
-    line-height: clamp(36px, 5vw, 94px);
+    font-size: clamp(30px, 4.5vw, 82px);
+    line-height: clamp(36px, 4.5vw, 94px);
     color: #fff;
     animation-duration: 1s;
     animation-fill-mode: both;
@@ -109,20 +121,18 @@
   }
 }
 
-.mouse {
-  position: absolute;
-  left: 88px;
-  bottom: 88px;
-  @media screen and (max-width: 1024px) {
-    display: none;
-  }
-}
-
 .active {
   .desc {
     animation-duration: 1s;
     animation-fill-mode: both;
     animation-name: fadeInUp;
+  }
+}
+
+
+.mouse {
+  @media screen and (max-width: 1024px) {
+    display: none;
   }
 }
 

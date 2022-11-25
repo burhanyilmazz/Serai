@@ -10,7 +10,7 @@ export const ScrollIcon = (props) => {
 
   return (
     <div className={classNames(styles['scroll-icon'], className)}>
-      <Icon icon='mouse' />
+      <Icon icon='arrow' />
     </div>
   )
 }
